@@ -18,20 +18,23 @@ vis_next_game_sim_ftrs_keys = ["VIS-NEXT-HOME", "VIS-NEXT-VIS"]
 
 all_atts = json.load(open('./data/atts.json', 'r'))
 
-nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves"}
+nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers"}
 
-test_json = json.load(open(f'./data/jsons/2018_new_atts_w_stand_streak.json', 'r'))
+test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
 game_idx = 11
 
 hl = test_json[game_idx]['home_line']
 vl = test_json[game_idx]['vis_line']
 g = test_json[game_idx]['game']
 
-next_game_exist = False
+home_next_game_exist = False
 if 'home_next_game' in test_json[game_idx]:
     hn = test_json[game_idx]['home_next_game']
+    home_next_game_exist = True
+vis_next_game_exist = False
+if 'vis_next_game' in test_json[game_idx]:
     vn = test_json[game_idx]['vis_next_game']
-    next_game_exist = True
+    vis_next_game_exist = True
 
 ls = {}
 for k, v in hl.items():
@@ -54,7 +57,7 @@ for k, v in g.items():
     if k in all_atts['game keys']:
         ls[f'{k}'] = v
 
-if next_game_exist:
+if home_next_game_exist:
     for k, v in hn.items():
         if k in all_atts['next-game keys']:
             if hl['TEAM-NAME'] == hn['NEXT-HOME-TEAM']:
@@ -63,6 +66,12 @@ if next_game_exist:
             if hl['TEAM-NAME'] == hn['NEXT-VISITING-TEAM']:
                 ls['HOME-NEXT-HOME'] = 0.0
                 ls['HOME-NEXT-VIS'] = 1.0
+            else:
+                ls[f'HOME-{k}'] = v
+                ls[f'VIS-{k}'] = vn[k]
+if vis_next_game_exist:
+    for k, v in vn.items():
+        if k in all_atts['next-game keys']:
             if vl['TEAM-NAME'] == vn['NEXT-HOME-TEAM']:
                 ls['VIS-NEXT-HOME'] = 1.0
                 ls['VIS-NEXT-VIS'] = 0.0
@@ -114,14 +123,19 @@ print("\n\nThis game")
 print(proposed_solutions[0])
 # print(ls['VIS-NEXT-HOME'], ls['VIS-NEXT-VIS'])
 
-if next_game_exist:
-    next_game_prob = pd.read_csv('./data/case_base/team_next-game_problem.csv')
-    next_game_sol = pd.read_csv('./data/case_base/team_next-game_solution.csv')
+next_game_prob = pd.read_csv('./data/case_base/team_next-game_problem.csv')
+next_game_sol = pd.read_csv('./data/case_base/team_next-game_solution.csv')
 
-    for generating_for in ['HOME', 'VIS']:
-        # generating_for = 'HOME' # ['HOME', 'VIS'] HOME or VIS - for which team you're generating
+for generating_for in ['HOME', 'VIS']:
+    # generating_for = 'HOME' # ['HOME', 'VIS'] HOME or VIS - for which team you're generating
+    do_generation = False
+    if generating_for == 'HOME' and home_next_game_exist:
+        do_generation = True
+    if generating_for == 'VIS' and vis_next_game_exist:
+        do_generation = True
 
-        ## Generate the text for defeat
+    if do_generation:
+        ## Generate the text for next-game
         case_base_sim_ftrs = next_game_prob['sim_features'].tolist()
         case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
 

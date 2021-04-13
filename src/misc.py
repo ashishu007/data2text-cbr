@@ -1,0 +1,89 @@
+import json
+import pandas as pd
+
+"""
+This file will contain several small chunks of codes to do some non-trivial tasks
+"""
+
+"""
+# ------------------------------ Next Opponent -------------------------------------
+
+# Here I'm trying to add a feature to define next game's opponent explicitly
+start_season = 14
+
+while (start_season < 19):
+    print(f'{start_season}')
+    js = json.load(open(f'./data/jsons/20{start_season}_new_atts_w_stand_streak.json', 'r'))
+    # print(js[0].keys(), js[0]['home_next_game'].keys())
+    
+    new_js = []
+    for item in js:
+        home_name, vis_name = item['home_name'], item['vis_name']
+        if 'home_next_game' in item:
+            home_ng = item['home_next_game'] 
+            if home_name == home_ng['NEXT-HOME-TEAM']:
+                home_next_opponent = home_ng['NEXT-VISITING-TEAM']
+                home_next_opponent_place = home_ng['NEXT-VISITING-TEAM-PLACE']
+                home_next_opponent_conf = home_ng['NEXT-VISITING-TEAM-CONFERENCE']
+                home_next_opponent_div = home_ng['NEXT-VISITING-TEAM-DIVISION']
+            else:
+                home_next_opponent = home_ng['NEXT-HOME-TEAM']
+                home_next_opponent_place = home_ng['NEXT-HOME-TEAM-PLACE']
+                home_next_opponent_conf = home_ng['NEXT-HOME-TEAM-CONFERENCE']
+                home_next_opponent_div = home_ng['NEXT-HOME-TEAM-DIVISION']
+            item['home_next_game']['NEXT-OPPONENT-TEAM'] = home_next_opponent
+            item['home_next_game']['NEXT-OPPONENT-TEAM-PLACE'] = home_next_opponent_place
+            item['home_next_game']['NEXT-OPPONENT-TEAM-CONFERENCE'] = home_next_opponent_conf
+            item['home_next_game']['NEXT-OPPONENT-TEAM-DIVISION'] = home_next_opponent_div
+
+        if 'vis_next_game' in item:
+            vis_ng = item['vis_next_game']
+            if vis_name == vis_ng['NEXT-HOME-TEAM']:
+                vis_next_opponent = vis_ng['NEXT-VISITING-TEAM']
+                vis_next_opponent_place = vis_ng['NEXT-VISITING-TEAM-PLACE']
+                vis_next_opponent_conf = vis_ng['NEXT-VISITING-TEAM-CONFERENCE']
+                vis_next_opponent_div = vis_ng['NEXT-VISITING-TEAM-DIVISION']
+            else:
+                vis_next_opponent = vis_ng['NEXT-HOME-TEAM']
+                vis_next_opponent_place = vis_ng['NEXT-HOME-TEAM-PLACE']
+                vis_next_opponent_conf = vis_ng['NEXT-HOME-TEAM-CONFERENCE']
+                vis_next_opponent_div = vis_ng['NEXT-HOME-TEAM-DIVISION']
+            item['vis_next_game']['NEXT-OPPONENT-TEAM'] = vis_next_opponent
+            item['vis_next_game']['NEXT-OPPONENT-TEAM-PLACE'] = vis_next_opponent_place
+            item['vis_next_game']['NEXT-OPPONENT-TEAM-CONFERENCE'] = vis_next_opponent_conf
+            item['vis_next_game']['NEXT-OPPONENT-TEAM-DIVISION'] = vis_next_opponent_div
+        new_js.append(item)
+    
+    # print(new_js[0]['home_next_game'], new_js[0]['home_name'])
+    json.dump(new_js, open(f'./data/jsons/20{start_season}_w_opp.json', 'w'))
+
+    start_season += 1
+
+# ------------------------------ Next Opponent -------------------------------------
+"""
+
+# ------------------------------ Replace Ordinal Numbers -------------------------------------
+
+ordinal_set = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6, "seventh": 7, "eighth": 8, "ninth": 9,
+                    "tenth": 10, "eleventh": 11, "twelfth": 12, "thirteenth": 13, "fourteenth": 14, "fifteenth": 15,
+                    "1st": 1, "2nd": 2, "3rd": 3, "4th": 4, "5th": 5, "6th": 6, "7th": 7, "8th": 8, "9th": 9, "10th": 10, 
+                    "11th": 11, "12th": 12, "13th": 13, "14th": 14, "15th": 15}
+
+df = pd.read_csv('./data/clusters/sents_from_code_w_clusts.csv')
+
+new_sents_wo_ord = []
+for i, row in df.iterrows():
+    sent = row['sent']
+    new_sent = ''
+    for tok in sent.split(' '):
+        if tok in ordinal_set:
+            new_sent += f'{ordinal_set[tok]} '
+        else:
+            new_sent += f'{tok} '
+    new_sents_wo_ord.append(new_sent)
+
+df['sent_wo_ord'] = new_sents_wo_ord
+
+df.to_csv('./data/clusters/all_clusters.csv', index=0)
+
+# ------------------------------ Replace Ordinal Numbers -------------------------------------

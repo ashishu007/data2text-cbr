@@ -21,13 +21,15 @@ def team_templates(df1, jsons, cat='defeat'):
             print(idx)
 
         try:
-            sent = row['sent']
+            sent = row['sent_wo_ord']
             game_idx = row['game_idx']
             js = jsons[row['season']]
 
             hl = js[game_idx]['home_line']
             vl = js[game_idx]['vis_line']
             g = js[game_idx]['game']
+
+            # if 'home_next_game' in
             hn = js[game_idx]['home_next_game']
             vn = js[game_idx]['vis_next_game']
 
@@ -65,6 +67,7 @@ def team_templates(df1, jsons, cat='defeat'):
             for k, v in g.items():
                 if k in all_atts['game keys']:
                     ls[f'{k}'] = v
+            
             for k, v in hn.items():
                 if k in all_atts['next-game keys']:
                     ls[f'HOME-{k}'] = v
@@ -122,12 +125,13 @@ def team_templates(df1, jsons, cat='defeat'):
 
 jsons = {}
 for season in [2014, 2015, 2016]:
-    js1 = json.load(open(f'./data/jsons/{season}_new_atts_w_stand_streak.json', 'r'))
+    js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
     jsons[season] = js1
 
-df = pd.read_csv('./data/clusters/sents_from_code_w_clusts.csv')
+df = pd.read_csv('./data/clusters/all_clusters.csv')
 
 for cat in ['next-game', 'defeat']:
+# for cat in ['next-game']:
     print(cat)
 
     if cat == 'defeat':
