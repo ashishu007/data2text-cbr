@@ -62,6 +62,7 @@ while (start_season < 19):
 # ------------------------------ Next Opponent -------------------------------------
 """
 
+"""
 # ------------------------------ Replace Ordinal Numbers -------------------------------------
 
 ordinal_set = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6, "seventh": 7, "eighth": 8, "ninth": 9,
@@ -87,3 +88,35 @@ df['sent_wo_ord'] = new_sents_wo_ord
 df.to_csv('./data/clusters/all_clusters.csv', index=0)
 
 # ------------------------------ Replace Ordinal Numbers -------------------------------------
+"""
+
+
+# ------------------------------ Unique Player Names -------------------------------------
+start_season = 14
+
+full_names = []
+first_names = []
+last_names = []
+
+while (start_season < 19):
+    js = json.load(open(f'./data/jsons/20{start_season}_w_opp.json', 'r'))
+    for item in js:
+        bs = item['box_score']
+        full_names.extend(list(bs['PLAYER_NAME'].values()))
+        first_names.extend(list(bs['FIRST_NAME'].values()))
+        last_names.extend(list(bs['SECOND_NAME'].values()))
+    start_season += 1
+
+unique_full_names = list(set(full_names))
+unique_last_names = list(set(last_names))
+unique_first_names = list(set(first_names))
+
+names = {
+    "Full Names": unique_full_names,
+    "Last Names": unique_last_names,
+    "First Names": unique_first_names
+}
+
+json.dump(names, open('./data/player_names.json', 'w'), indent='\t')
+# ------------------------------ Unique Player Names -------------------------------------
+
