@@ -20,7 +20,7 @@ all_atts = json.load(open('atts.json', 'r'))
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves"}
 
-test_json = json.load(open(f'../info_gap/data_new_atts/w_streak/2018_new_atts_w_stand_streak.json', 'r'))
+test_json = json.load(open(f'./data/jsons/2018_new_atts_w_stand_streak.json', 'r'))
 game_idx = 11
 
 hl = test_json[game_idx]['home_line']

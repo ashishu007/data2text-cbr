@@ -122,11 +122,10 @@ def team_templates(df1, jsons, cat='defeat'):
 
 jsons = {}
 for season in [2014, 2015, 2016]:
-    js1 = json.load(open(f'../info_gap/data_new_atts/w_streak/{season}_new_atts_w_stand_streak.json', 'r'))
-    # js1 = json.load(open(f'../abs_sents/data/2014_new_atts.json', 'r'))
+    js1 = json.load(open(f'./data/jsons/{season}_new_atts_w_stand_streak.json', 'r'))
     jsons[season] = js1
 
-df = pd.read_csv('../abs_sents/new_clusts/sents_from_code_w_clusts.csv')
+df = pd.read_csv('./data/clusters/sents_from_code_w_clusts.csv')
 
 for cat in ['next-game', 'defeat']:
     print(cat)
