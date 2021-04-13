@@ -7,7 +7,7 @@ sim_ftrs_keys = ["TEAM-PTS_QTR1", "TEAM-PTS_QTR2", "TEAM-PTS_QTR3", "TEAM-PTS_QT
         		"TEAM-WINS", "TEAM-LOSSES", "WINNER", "TEAM-STANDING", "STREAK-TYPE", "STREAK-COUNT"]
 next_game_sim_ftrs_keys = ["HOME-NEXT-HOME", "HOME-NEXT-VIS", "VIS-NEXT-HOME", "VIS-NEXT-VIS"]
 
-all_atts = json.load(open('atts.json', 'r'))
+all_atts = json.load(open('./data/atts.json', 'r'))
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers"}
 
@@ -116,8 +116,8 @@ def team_templates(df1, jsons, cat='defeat'):
     print(dfs.shape)
     print(dfp.shape)
 
-    dfp.to_csv(f'./templates/team_{cat}_problem.csv', index=0)
-    dfs.to_csv(f'./templates/team_{cat}_solution.csv', index=0)
+    dfp.to_csv(f'./data/case_base/team_{cat}_problem.csv', index=0)
+    dfs.to_csv(f'./data/case_base/team_{cat}_solution.csv', index=0)
 
 
 jsons = {}

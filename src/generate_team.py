@@ -16,7 +16,7 @@ defeat_sim_ftrs_keys = ["TEAM-PTS_QTR1", "TEAM-PTS_QTR2", "TEAM-PTS_QTR3", "TEAM
 home_next_game_sim_ftrs_keys = ["HOME-NEXT-HOME", "HOME-NEXT-VIS"]
 vis_next_game_sim_ftrs_keys = ["VIS-NEXT-HOME", "VIS-NEXT-VIS"]
 
-all_atts = json.load(open('atts.json', 'r'))
+all_atts = json.load(open('./data/atts.json', 'r'))
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves"}
 
@@ -73,8 +73,8 @@ if next_game_exist:
                 ls[f'HOME-{k}'] = v
                 ls[f'VIS-{k}'] = vn[k]
 
-defeat_prob = pd.read_csv('./templates/team_defeat_problem.csv')
-defeat_sol = pd.read_csv('./templates/team_defeat_solution.csv')
+defeat_prob = pd.read_csv('./data/case_base/team_defeat_problem.csv')
+defeat_sol = pd.read_csv('./data/case_base/team_defeat_solution.csv')
 
 ## Generate the text for defeat
 case_base_sim_ftrs = defeat_prob['sim_features'].tolist()
@@ -115,8 +115,8 @@ print(proposed_solutions[0])
 # print(ls['VIS-NEXT-HOME'], ls['VIS-NEXT-VIS'])
 
 if next_game_exist:
-    next_game_prob = pd.read_csv('./templates/team_next-game_problem.csv')
-    next_game_sol = pd.read_csv('./templates/team_next-game_solution.csv')
+    next_game_prob = pd.read_csv('./data/case_base/team_next-game_problem.csv')
+    next_game_sol = pd.read_csv('./data/case_base/team_next-game_solution.csv')
 
     for generating_for in ['HOME', 'VIS']:
         # generating_for = 'HOME' # ['HOME', 'VIS'] HOME or VIS - for which team you're generating
