@@ -68,7 +68,7 @@ while (start_season < 19):
 ordinal_set = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5, "sixth": 6, "seventh": 7, "eighth": 8, "ninth": 9,
                     "tenth": 10, "eleventh": 11, "twelfth": 12, "thirteenth": 13, "fourteenth": 14, "fifteenth": 15,
                     "1st": 1, "2nd": 2, "3rd": 3, "4th": 4, "5th": 5, "6th": 6, "7th": 7, "8th": 8, "9th": 9, "10th": 10, 
-                    "11th": 11, "12th": 12, "13th": 13, "14th": 14, "15th": 15}
+                    "11th": 11, "12th": 12, "13th": 13, "14th": 14, "15th": 15, "last": 15, "atop":1}
 
 df = pd.read_csv('./data/clusters/sents_from_code_w_clusts.csv')
 
@@ -91,6 +91,7 @@ df.to_csv('./data/clusters/all_clusters.csv', index=0)
 """
 
 
+"""
 # ------------------------------ Unique Player Names -------------------------------------
 start_season = 14
 
@@ -119,4 +120,33 @@ names = {
 
 json.dump(names, open('./data/player_names.json', 'w'), indent='\t')
 # ------------------------------ Unique Player Names -------------------------------------
+"""
 
+"""
+# ------------------------------ Team Names -------------------------------------
+start_season = 14
+
+team_names = []
+team_places = []
+full_team_names = []
+
+while (start_season < 19):
+    js = json.load(open(f'./data/jsons/20{start_season}_w_opp.json', 'r'))
+    for item in js:
+        team_names.append(item['vis_name'])
+        team_places.append(item['vis_city'])
+        full_team_names.append(f'{item["vis_city"]} {item["vis_name"]}')
+        team_names.append(item['home_name'])
+        team_places.append(item['home_city'])
+        full_team_names.append(f'{item["home_city"]} {item["home_name"]}')
+    start_season += 1
+
+names = {
+    "Team Names": list(set(team_names)),
+    "Team Places": list(set(team_places)),
+    "Full Team Names": list(set(full_team_names))
+}
+
+json.dump(names, open('./data/team_names.json', 'w'), indent='\t')
+# ------------------------------ Team Names -------------------------------------
+"""
