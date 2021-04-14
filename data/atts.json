@@ -60,7 +60,8 @@
 		"REB_AVG",
 		"AST_AVG",
 		"DOUBLE_DOUBLE",
-		"DD_AVG"
+		"DD_AVG",
+		"IS_LEADER"
 	],
 	"line-score keys": [
 		"TEAM-PTS_QTR1",

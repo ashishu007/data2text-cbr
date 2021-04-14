@@ -9,11 +9,15 @@ import json
 import pandas as pd
 import numpy as np
 from text2num import text2num, NumberException
+from misc import MiscTasks
 from sklearn.metrics.pairwise import euclidean_distances
 
-player_clusters = ['Y', 'F']
+mt = MiscTasks()
 
-nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers"}
+team_clusters = mt.team_clusts
+# team_clusters = ['Y', 'F']
+
+nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 all_atts = json.load(open('./data/atts.json', 'r'))
 
 def get_team_score(score_dict):
@@ -54,14 +58,15 @@ def ext_team_temp_from_sent(sent, stats):
     template = ' '.join(new_toks)
     return template, used_atts
 
-def extracting_templates_from_texts():
+def extracting_team_stats_templates_from_texts():
     jsons = {}
     for season in [2014, 2015, 2016]:
         js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
         jsons[season] = js1
 
-    df = pd.read_csv('./data/clusters/all_clusters.csv')
-    df1 = df.loc[df['clust'].isin(player_clusters)]
+    # df = pd.read_csv('./data/clusters/all_clusters.csv')
+    df = pd.read_csv(mt.cluster_path)
+    df1 = df.loc[df['clust'].isin(team_clusters)]
 
     problem_side = {"sentences": [], "sim_features": []}
     solution_side = {"templates": [], "used_attributes": []}
@@ -103,9 +108,12 @@ def extracting_templates_from_texts():
     dfp.to_csv(f'./data/case_base/team_stats_problem.csv', index=0)
     dfs.to_csv(f'./data/case_base/team_stats_solution.csv', index=0)
 
-def generating_text_from_templates():
-    test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
-    game_idx = 11
+def generating_team_text_from_templates(test_json, game_idx):
+    # test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
+    # game_idx = 11
+
+    # team_stats_final_sol = {}
+
     score_dict = test_json[game_idx]
 
     target_problem_stats, target_problem_sim_ftrs = get_team_score(score_dict)
@@ -136,7 +144,13 @@ def generating_text_from_templates():
                 new_str += f"{tok} "
         proposed_solutions.append(new_str)
 
-    print(proposed_solutions)
-    print(target_problem_stats)
+    # print(proposed_solutions)
+    # print(target_problem_stats)
+    team_stats_final_sol = {"team1": proposed_solutions[0], "team2": proposed_solutions[1], "team3": proposed_solutions[2]}
+    return team_stats_final_sol
 
-generating_text_from_templates()
+
+# test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
+# game_idx = 11
+# s = generating_team_text_from_templates(test_json, 11)
+# print(s)

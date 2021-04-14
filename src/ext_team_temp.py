@@ -9,10 +9,23 @@ next_game_sim_ftrs_keys = ["HOME-NEXT-HOME", "HOME-NEXT-VIS", "VIS-NEXT-HOME", "
 
 all_atts = json.load(open('./data/atts.json', 'r'))
 
-nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers"}
+nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 
 # 1. Extract Team A defeated B types
-def team_templates(df1, jsons, cat='defeat'):
+def extract_team_templates_from_text(cat='defeat'):
+
+    jsons = {}
+    for season in [2014, 2015, 2016]:
+        js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
+        jsons[season] = js1
+
+    df = pd.read_csv('./data/clusters/all_clusters.csv')
+
+    if cat == 'defeat':
+        df1 = df.loc[df['clust'].isin(['B', 'C'])]
+    elif cat == 'next-game':
+        df1 = df.loc[df['clust'].isin(['J'])]
+
     problem_side = {"sentences": [], "sim_features": []}
     solution_side = {"templates": [], "used_attributes": []}
 
@@ -41,28 +54,28 @@ def team_templates(df1, jsons, cat='defeat'):
                 # if cat == 'defeat':
                 if k in sim_ftrs_keys:
                     if k == 'WINNER':
-                        sim_ftrs[f'HOME-{k}'] = 0.0 if v == 'no' else 1.0
-                        sim_ftrs[f'VIS-{k}'] = 0.0 if vl[k] == 'no' else 1.0
+                        sim_ftrs[f'HOME-{k}'] = 0 if v == 'no' else 1
+                        sim_ftrs[f'VIS-{k}'] = 0 if vl[k] == 'no' else 1
                     elif k == 'STREAK-TYPE':
-                        sim_ftrs[f'HOME-{k}'] = 0.0 if v == 'L' else 1.0
-                        sim_ftrs[f'VIS-{k}'] = 0.0 if vl[k] == 'L' else 1.0
+                        sim_ftrs[f'HOME-{k}'] = 0 if v == 'L' else 1
+                        sim_ftrs[f'VIS-{k}'] = 0 if vl[k] == 'L' else 1
                     else:
-                        sim_ftrs[f"HOME-{k}"] = float(v)
-                        sim_ftrs[f"VIS-{k}"] = float(vl[k])
+                        sim_ftrs[f"HOME-{k}"] = int(v)
+                        sim_ftrs[f"VIS-{k}"] = int(vl[k])
                 if cat == 'next-game':
                     # if next-game simialrity features should be H/V's next game is H or V
                     if hl['TEAM-NAME'] == hn['NEXT-HOME-TEAM']:
-                        sim_ftrs['HOME-NEXT-HOME'] = 1.0
-                        sim_ftrs['HOME-NEXT-VIS'] = 0.0
+                        sim_ftrs['HOME-NEXT-HOME'] = 1
+                        sim_ftrs['HOME-NEXT-VIS'] = 0
                     if hl['TEAM-NAME'] == hn['NEXT-VISITING-TEAM']:
-                        sim_ftrs['HOME-NEXT-HOME'] = 0.0
-                        sim_ftrs['HOME-NEXT-VIS'] = 1.0
+                        sim_ftrs['HOME-NEXT-HOME'] = 0
+                        sim_ftrs['HOME-NEXT-VIS'] = 1
                     if vl['TEAM-NAME'] == vn['NEXT-HOME-TEAM']:
-                        sim_ftrs['VIS-NEXT-HOME'] = 1.0
-                        sim_ftrs['VIS-NEXT-VIS'] = 0.0
+                        sim_ftrs['VIS-NEXT-HOME'] = 1
+                        sim_ftrs['VIS-NEXT-VIS'] = 0
                     if vl['TEAM-NAME'] == vn['NEXT-VISITING-TEAM']:
-                        sim_ftrs['VIS-NEXT-HOME'] = 0.0
-                        sim_ftrs['VIS-NEXT-VIS'] = 1.0
+                        sim_ftrs['VIS-NEXT-HOME'] = 0
+                        sim_ftrs['VIS-NEXT-VIS'] = 1
 
             for k, v in g.items():
                 if k in all_atts['game keys']:
@@ -123,22 +136,7 @@ def team_templates(df1, jsons, cat='defeat'):
     dfs.to_csv(f'./data/case_base/team_{cat}_solution.csv', index=0)
 
 
-jsons = {}
-for season in [2014, 2015, 2016]:
-    js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
-    jsons[season] = js1
-
-df = pd.read_csv('./data/clusters/all_clusters.csv')
-
-for cat in ['next-game', 'defeat']:
-# for cat in ['next-game']:
-    print(cat)
-
-    if cat == 'defeat':
-        df2 = df.loc[df['clust'].isin(['B', 'C'])]
-    elif cat == 'next-game':
-        df2 = df.loc[df['clust'].isin(['J'])]
-
-    print(df2.shape)
-    team_templates(df2, jsons, cat)
+# for cat in ['next-game', 'defeat']:
+#     print(cat)
+#     extract_team_templates_from_text(cat)
 

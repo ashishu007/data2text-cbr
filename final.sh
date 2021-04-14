@@ -1,9 +1,9 @@
 echo " "
-echo "Extracting Team-Templates from Sentences"
+echo "Extracting Templates from Sentences"
 echo " "
-python3 ./src/ext_team_temp.py
+python3 ./src/final_ext_temp.py
 
 echo " "
-echo "Generating Team-Sentences from Templates"
+echo "Generating Sentences from Templates"
 echo " "
-python3 ./src/generate_team.py
+python3 ./src/final_gen.py

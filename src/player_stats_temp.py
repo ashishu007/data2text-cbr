@@ -22,11 +22,14 @@ I can't add the clusterId as similarity feature because this woudn't be availabl
 
 import json
 import pandas as pd
+import numpy as np
+from sklearn.metrics.pairwise import euclidean_distances
 from text2num import text2num, NumberException
+from select_imp_players import select_imp_player_on_eff
 
 player_clusters = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
 
-nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers"}
+nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 all_atts = json.load(open('./data/atts.json', 'r'))
 
 def get_all_ents(score_dict):
@@ -112,7 +115,8 @@ def get_player_score(player_ents, score_dict):
         player_stats['SECOND_NAME'] = score_dict['box_score']['SECOND_NAME'][player_idx]
 
         all_player_stats[player] = player_stats
-
+        # print(player_stats)
+    # print(all_player_stats)
     return all_player_stats
 
 def ext_player_temp_from_sent(sent, stats):
@@ -133,7 +137,7 @@ def ext_player_temp_from_sent(sent, stats):
     template = ' '.join(new_toks)
     return template, used_atts
 
-def extracting_templates_from_texts():
+def extracting_player_stats_templates_from_texts():
     jsons = {}
     for season in [2014, 2015, 2016]:
         js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
@@ -191,5 +195,58 @@ def extracting_templates_from_texts():
     dfp.to_csv(f'./data/case_base/player_stats_problem.csv', index=0)
     dfs.to_csv(f'./data/case_base/player_stats_solution.csv', index=0)
 
-def generating_text_from_templates():
-    pass
+def generating_player_text_from_templates(js, game_idx):
+    # js = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
+    # game_idx = 11
+    home_imp_players, vis_imp_players = select_imp_player_on_eff(js[game_idx]['box_score'])
+    imp_players_stats = {}
+    imp_players_stats.update(get_player_score(list(home_imp_players.keys())[:3], js[game_idx]))
+    imp_players_stats.update(get_player_score(list(vis_imp_players.keys())[:3], js[game_idx]))
+
+
+    cb_player_stats_problem = pd.read_csv(f'./data/case_base/player_stats_problem.csv')
+    cb_player_stats_solution = pd.read_csv(f'./data/case_base/player_stats_solution.csv')
+
+    case_base_sim_ftrs = cb_player_stats_problem['sim_features'].tolist()
+    case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
+    case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
+
+    solution_templates = cb_player_stats_solution['templates'].tolist()
+
+    # print(case_base_sim_ftrs_arr.shape)
+    all_players_proposed_solutions = {}
+
+    for player, player_stats in imp_players_stats.items():
+        # print(player, player_stats)
+        player_sim_ftrs = {}
+        for k, v in player_stats.items():
+            if not isinstance(v, str):
+                player_sim_ftrs[k] = v
+        target_problem_sim_ftrs_arr = np.array(list(player_sim_ftrs.values()))
+        # print(target_problem_sim_ftrs_arr.shape)
+
+        # Now calculate the simialrity between case-base and each player
+        dists = euclidean_distances(case_base_sim_ftrs_arr, [target_problem_sim_ftrs_arr])
+        dists_1d = dists.ravel()
+        dists_arg = np.argsort(dists_1d)[:5]
+
+        # proposed solutions
+        proposed_solutions = []
+        for i in dists_arg:
+            tmpl = solution_templates[i]
+            new_str = ""
+            for tok in tmpl.split(' '):
+                if tok in list(player_stats.keys()):
+                    new_str += f"{str(player_stats[tok])} "
+                else:
+                    new_str += f"{tok} "
+            proposed_solutions.append(new_str)
+
+        # print(proposed_solutions[0])
+        # print(player_stats)
+        all_players_proposed_solutions[player] = proposed_solutions[0]
+
+    return all_players_proposed_solutions
+
+# print(generating_text_from_templates())
+# generating_player_text_from_templates(11)
