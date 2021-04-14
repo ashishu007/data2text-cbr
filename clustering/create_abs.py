@@ -1,3 +1,4 @@
+import sys
 import os
 import re
 import json
@@ -212,8 +213,29 @@ abs_sents = {
   'season': []
 }
 
-# seasons = [2014, 2015, 2016]
-seasons = [2014]
+"""
+num_sample_id_1 ==> seasons = [2014]                (num_train_data = ~1200)
+num_sample_id_2 ==> seasons = [2014, 2015]          (num_train_data = ~2400)
+num_sample_id_3 ==> seasons = [2015, 2016]          (num_train_data = ~3600)
+num_sample_id_4 ==> seasons = [2014, 2015, 2016]    (num_train_data = ~4800)
+sample_size = {2014: 1226, 2015: 1211, 2016: 2308, 2017: 1228, 2018: 1229}
+"""
+
+sample_id = sys.argv[1]
+# print(sample_id, type(sample_id))
+
+if sample_id == 'num_sample_id_1':
+  seasons = [2014]
+elif sample_id == 'num_sample_id_2':
+  seasons = [2014, 2015]
+elif sample_id == 'num_sample_id_3':
+  seasons = [2015, 2016]
+elif sample_id == 'num_sample_id_4':
+  seasons = [2014, 2015, 2016]
+
+print(seasons)
+
+# seasons = [2014]
 for season in seasons:
   print(season)
   data = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))

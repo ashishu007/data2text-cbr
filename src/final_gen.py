@@ -1,3 +1,4 @@
+import sys
 import json
 from player_stats_temp import generating_player_text_from_templates
 from team_stats_temp import generating_team_text_from_templates
@@ -33,6 +34,7 @@ for game_idx in range(len(js)):
 
     test_preds.append(final_sol)
 
-with open('./output/only_2014_training_data.txt', 'w') as f:
+# with open('./output/only_2014_training_data.txt', 'w') as f:
+with open(f'./output/{sys.argv[1]}', 'w') as f:
     f.write('\n'.join(test_preds))
 
