@@ -1,6 +1,18 @@
 # dynamic-temp-nlg
 NLG with dynamic templates
 
+## How to Run
+
+1. Create the clusters
+```bash
+sh create_cluster.sh
+```
+
+2. Do generation
+```bash
+sh final.sh
+```
+
 ## TODO
 1. ~~Extract templates for players/teams stats~~
 2. ~~Rank/Select important players (currently done based on efficiency)~~
@@ -8,3 +20,4 @@ NLG with dynamic templates
 4. ~~Generate sentences for teams stats~~
 5. Learn weights of the features
 6. Possibly select players' combinations (with other players and with teams)
+

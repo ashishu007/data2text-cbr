@@ -7,7 +7,8 @@ This file will contain several small chunks of codes to do some non-trivial task
 
 class MiscTasks:
     def __init__(self):
-        self.cluster_path = './data/clusters/all_clusters.csv'
+        # self.cluster_path = './data/clusters/all_clusters.csv'
+        self.cluster_path = './clustering/data/all_clusters.csv'
         self.team_clusts = ['Y', 'F']
         self.player_clusts = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
         self.defeat_clusts = ['B', 'C']
