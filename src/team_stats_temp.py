@@ -7,7 +7,9 @@ Extract teams' related templates
 
 import json
 import pandas as pd
+import numpy as np
 from text2num import text2num, NumberException
+from sklearn.metrics.pairwise import euclidean_distances
 
 player_clusters = ['Y', 'F']
 
@@ -102,4 +104,39 @@ def extracting_templates_from_texts():
     dfs.to_csv(f'./data/case_base/team_stats_solution.csv', index=0)
 
 def generating_text_from_templates():
-    pass
+    test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
+    game_idx = 11
+    score_dict = test_json[game_idx]
+
+    target_problem_stats, target_problem_sim_ftrs = get_team_score(score_dict)
+    target_problem_sim_ftrs_arr = np.array(list(target_problem_sim_ftrs.values()))
+
+    cb_teams_stats_problem = pd.read_csv(f'./data/case_base/team_stats_problem.csv')
+    cb_teams_stats_solution = pd.read_csv(f'./data/case_base/team_stats_solution.csv')
+
+    case_base_sim_ftrs = cb_teams_stats_problem['sim_features'].tolist()
+    case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
+    case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
+
+    solution_templates = cb_teams_stats_solution['templates'].tolist()
+
+    dists = euclidean_distances(case_base_sim_ftrs_arr, [target_problem_sim_ftrs_arr])
+    dists_1d = dists.ravel()
+    dists_arg = np.argsort(dists_1d)[:5]
+
+    # proposed solutions
+    proposed_solutions = []
+    for i in dists_arg:
+        tmpl = solution_templates[i]
+        new_str = ""
+        for tok in tmpl.split(' '):
+            if tok in list(target_problem_stats.keys()):
+                new_str += f"{str(target_problem_stats[tok])} "
+            else:
+                new_str += f"{tok} "
+        proposed_solutions.append(new_str)
+
+    print(proposed_solutions)
+    print(target_problem_stats)
+
+generating_text_from_templates()

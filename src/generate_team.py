@@ -194,10 +194,3 @@ for generating_for in ['HOME', 'VIS']:
         print(proposed_solutions[0], solution_templates[dists_arg[0]])
 
 print(ls)
-
-# # TODO: Apply LaserTagger here
-# # final_sol = ""
-# # if next_game_exist:
-# #     prop_sols
-# # else:
-# #     final_sol = prop_sols[0]

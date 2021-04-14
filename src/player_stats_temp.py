@@ -11,9 +11,13 @@ Process:
 3. replace the matching tokens with their feature_name
 4. similarity_ftrs will be players' stats
 
-
 add leader - yes/no (is_leader); team's name to player stats (own_team_name/opponent_team_name)
 add conceptId as feature as well (cluster identifier - clustid)
+
+Impact of clusters:
+I'm hoping with weights learned for the features, they would be able to pick important things.
+For example, if a player has scored d-d, a template with d-d cluster will be picked.
+I can't add the clusterId as similarity feature because this woudn't be available during testing.
 """
 
 import json
@@ -164,7 +168,6 @@ def extracting_templates_from_texts():
         new_sent = ' '.join(new_toks)
 
         players = extract_entities(player_ents, new_sent)
-        teams = extract_entities(team_ents, new_sent)
 
         player_ent_found = True if len(players) > 0 else False
         if player_ent_found:
