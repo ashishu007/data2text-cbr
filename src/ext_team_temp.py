@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 from text2num import text2num, NumberException
+from misc import MiscTasks
 
 sim_ftrs_keys = ["TEAM-PTS_QTR1", "TEAM-PTS_QTR2", "TEAM-PTS_QTR3", "TEAM-PTS_QTR4", "TEAM-PTS", "TEAM-FGM", "TEAM-FGA", "TEAM-FG_PCT",
 		        "TEAM-FG3M", "TEAM-FG3A", "TEAM-FG3_PCT", "TEAM-FTM", "TEAM-FTA", "TEAM-FT_PCT", "TEAM-REB", "TEAM-AST", "TEAM-TOV", 
@@ -11,6 +12,8 @@ all_atts = json.load(open('./data/atts.json', 'r'))
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 
+mt = MiscTasks()
+
 # 1. Extract Team A defeated B types
 def extract_team_templates_from_text(cat='defeat'):
 
@@ -19,12 +22,13 @@ def extract_team_templates_from_text(cat='defeat'):
         js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
         jsons[season] = js1
 
-    df = pd.read_csv('./data/clusters/all_clusters.csv')
+    # df = pd.read_csv('./data/clusters/all_clusters.csv')
+    df = pd.read_csv(mt.cluster_path)
 
     if cat == 'defeat':
-        df1 = df.loc[df['clust'].isin(['B', 'C'])]
+        df1 = df.loc[df['clust'].isin(mt.defeat_clusts)]
     elif cat == 'next-game':
-        df1 = df.loc[df['clust'].isin(['J'])]
+        df1 = df.loc[df['clust'].isin(mt.next_game_clusts)]
 
     problem_side = {"sentences": [], "sim_features": []}
     solution_side = {"templates": [], "used_attributes": []}

@@ -26,8 +26,11 @@ import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
 from text2num import text2num, NumberException
 from select_imp_players import select_imp_player_on_eff
+from misc import MiscTasks
 
-player_clusters = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
+mt = MiscTasks()
+player_clusters = mt.player_clusts
+# player_clusters = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 all_atts = json.load(open('./data/atts.json', 'r'))
@@ -143,7 +146,8 @@ def extracting_player_stats_templates_from_texts():
         js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
         jsons[season] = js1
 
-    df = pd.read_csv('./data/clusters/all_clusters.csv')
+    # df = pd.read_csv('./data/clusters/all_clusters.csv')
+    df = pd.read_csv(mt.cluster_path)
     df1 = df.loc[df['clust'].isin(player_clusters)]
 
     problem_side = {"sentences": [], "sim_features": []}

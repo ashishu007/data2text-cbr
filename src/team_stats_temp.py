@@ -15,7 +15,6 @@ from sklearn.metrics.pairwise import euclidean_distances
 mt = MiscTasks()
 
 team_clusters = mt.team_clusts
-# team_clusters = ['Y', 'F']
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 all_atts = json.load(open('./data/atts.json', 'r'))

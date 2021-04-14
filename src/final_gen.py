@@ -8,7 +8,7 @@ js = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
 
 for game_idx in range(len(js)):
 
-    if game_idx < 100:
+    if game_idx < 10:
         def_next = generate_defeat_and_next_game(js, game_idx)
         team_stat = generating_team_text_from_templates(js, game_idx)
         player_stat = generating_player_text_from_templates(js, game_idx)

@@ -9,6 +9,9 @@ class MiscTasks:
     def __init__(self):
         self.cluster_path = './data/clusters/all_clusters.csv'
         self.team_clusts = ['Y', 'F']
+        self.player_clusts = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
+        self.defeat_clusts = ['B', 'C']
+        self.next_game_clusts = ['J']
 
     # ------------------------------ Next Opponent -------------------------------------
     def add_next_opponent(self):
