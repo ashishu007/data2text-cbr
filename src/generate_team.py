@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 
 from sklearn.metrics.pairwise import euclidean_distances
+from misc import MiscTasks
 
 """
 0. Divide data
@@ -20,7 +21,9 @@ all_atts = json.load(open('./data/atts.json', 'r'))
 
 nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 
-def generate_defeat_and_next_game(test_json, game_idx):
+mt = MiscTasks()
+
+def generate_defeat_and_next_game(test_json, game_idx, tokenizer):
     # test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
     # game_idx = 11
     
@@ -121,11 +124,19 @@ def generate_defeat_and_next_game(test_json, game_idx):
                 new_str += f"{tok} "
         proposed_solutions.append(new_str)
 
-    defeat_and_next_game_final_sol['defeat'] = proposed_solutions[0]
-    # # TODO: Use LM-Scoring
-    # print("\n\nThis game")
-    # print(proposed_solutions[0])
-    # # print(ls['VIS-NEXT-HOME'], ls['VIS-NEXT-VIS'])
+    min_score = 100000
+    selected_solution = ''
+    # Now select sentence with top lm-score
+    for text in proposed_solutions:
+        text1 = text.replace("_", " ")
+        tokens_tensor = tokenizer.encode(text1, add_special_tokens=False, return_tensors="pt")           
+        score = mt.score_sent(tokens_tensor)
+        if score < min_score:
+            min_score = score
+            selected_solution = text
+
+    defeat_and_next_game_final_sol['defeat'] = selected_solution
+    # defeat_and_next_game_final_sol['defeat'] = proposed_solutions[0]
 
     next_game_prob = pd.read_csv('./data/case_base/team_next-game_problem.csv')
     next_game_sol = pd.read_csv('./data/case_base/team_next-game_solution.csv')
@@ -197,10 +208,20 @@ def generate_defeat_and_next_game(test_json, game_idx):
                         #     print(f'else tok {new_tok}')
                         new_str += f"{new_tok.split('-')[1]} "
                 proposed_solutions.append(new_str)
+        
+            min_score = 100000
+            selected_solution = ''
+            # Now select sentence with top lm-score
+            for text in proposed_solutions:
+                text1 = text.replace("_", " ")
+                tokens_tensor = tokenizer.encode(text1, add_special_tokens=False, return_tensors="pt")           
+                score = mt.score_sent(tokens_tensor)
+                if score < min_score:
+                    min_score = score
+                    selected_solution = text
 
-            defeat_and_next_game_final_sol[f'{generating_for}-next_game'] = proposed_solutions[0]
-            # print(f"\n\nNext game:\t{generating_for}")
-            # print(proposed_solutions[0], solution_templates[dists_arg[0]])
+            defeat_and_next_game_final_sol[f'{generating_for}-next_game'] = selected_solution
+            # defeat_and_next_game_final_sol[f'{generating_for}-next_game'] = proposed_solutions[0]
 
     # print(ls)
     return defeat_and_next_game_final_sol

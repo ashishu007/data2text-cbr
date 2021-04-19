@@ -107,16 +107,14 @@ def extracting_team_stats_templates_from_texts():
     dfp.to_csv(f'./data/case_base/team_stats_problem.csv', index=0)
     dfs.to_csv(f'./data/case_base/team_stats_solution.csv', index=0)
 
-def generating_team_text_from_templates(test_json, game_idx):
-    # test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
-    # game_idx = 11
-
-    # team_stats_final_sol = {}
+def generating_team_text_from_templates(test_json, game_idx, tokenizer):
 
     score_dict = test_json[game_idx]
 
     target_problem_stats, target_problem_sim_ftrs = get_team_score(score_dict)
     target_problem_sim_ftrs_arr = np.array(list(target_problem_sim_ftrs.values()))
+    print(target_problem_stats)
+    print()
 
     cb_teams_stats_problem = pd.read_csv(f'./data/case_base/team_stats_problem.csv')
     cb_teams_stats_solution = pd.read_csv(f'./data/case_base/team_stats_solution.csv')
@@ -132,7 +130,7 @@ def generating_team_text_from_templates(test_json, game_idx):
     dists_arg = np.argsort(dists_1d)[:5]
 
     # proposed solutions
-    proposed_solutions = []
+    proposed_solutions = {}
     for i in dists_arg:
         tmpl = solution_templates[i]
         new_str = ""
@@ -141,11 +139,19 @@ def generating_team_text_from_templates(test_json, game_idx):
                 new_str += f"{str(target_problem_stats[tok])} "
             else:
                 new_str += f"{tok} "
-        proposed_solutions.append(new_str)
+        
+        # applying lm-scoring here
+        text = new_str.replace("_", " ")
+        tokens_tensor = tokenizer.encode(text, add_special_tokens=False, return_tensors="pt")
+        score = mt.score_sent(tokens_tensor)
+        proposed_solutions[new_str] = score
 
-    # print(proposed_solutions)
-    # print(target_problem_stats)
-    team_stats_final_sol = {"team1": proposed_solutions[0], "team2": proposed_solutions[1], "team3": proposed_solutions[2]}
+    proposed_solutions_sorted = {k: v for k, v in sorted(proposed_solutions.items(), key=lambda item: item[1])}
+    team_stats_final_sol = {}
+    for idx, (k, v) in enumerate(proposed_solutions_sorted.items()):
+        if idx < 2:
+            team_stats_final_sol[f'team{idx+1}'] = k
+
     return team_stats_final_sol
 
 

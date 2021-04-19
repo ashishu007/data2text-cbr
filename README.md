@@ -53,3 +53,8 @@ sh final.sh
 5. Learn weights of the features
 6. Possibly select players' combinations (with other players and with teams)
 7. Experiment on lesser training data
+8. ~~Apply lm-scoring on template generation (just after clustering maybe)~~
+9. ~~Apply lm-scoring on selecting top sentence after generation~~
+10. Select clusters based on num-teams and players in the sentences
+11. Generate defeat and next-game based on rules
+12. If there's a number in the template that doesn't match the stats json, don't take it

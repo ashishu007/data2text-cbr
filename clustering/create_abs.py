@@ -17,8 +17,23 @@ import random
 
 from known_ents import named_entities as ne
 
+import numpy as np 
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
+
+class OtherTasks:
+    def __init__(self):
+        # sentence scoring
+        self.model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+    # ------------------------------ Sentence Scoring -------------------------------------
+    def score_sent(self, tokens_tensor):
+        loss = self.model(tokens_tensor, labels=tokens_tensor)[0]
+        score = np.exp(loss.cpu().detach().numpy())
+        return score
+    # ------------------------------ Sentence Scoring -------------------------------------
 
 class BaseMerger():
   def __init__(self, nlp, ent_type, pos='X'):
@@ -108,8 +123,8 @@ class TreeExtracter:
         else:
           ## Need the whole token, instead of just lemma for template purposes
           # not now, because using original text for template extraction
-          tokens.append(f'{token.pos_}-{token.lemma_}')
-          # tokens.append(f'{token.pos_}-{token}')
+          # tokens.append(f'{token.pos_}-{token.lemma_}')
+          tokens.append(f'{token.pos_}-{token}')
     
     # Remove consecutive duplicates.  PROPN-GPE PROPN-ORG PROPN-ORG => PROPN-GPE PROPN-ORG (e.g. Portland Trail Blazers)
     return ' '.join([x[0] for x in groupby(tokens)])
@@ -133,6 +148,7 @@ class TreeExtracter:
       abs_sents     = []
       
       for sent in doc.sents:
+      # for sent in orig_doc.sents:
         if valid_stop:
           raw_sentence      = self.raw_sentence(sents)
           abstract = self.spacy_parses_to_abstract_text(sents)
@@ -205,6 +221,8 @@ class TreeExtracter:
 
 print('constructing')
 extractor = TreeExtracter()
+ot = OtherTasks()
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 
 abs_sents = {
   'game_idx': [],
@@ -235,15 +253,20 @@ elif sample_id == 'num_sample_id_4':
 
 print(seasons)
 
+sent_scores = {}
+
 # seasons = [2014]
 for season in seasons:
   print(season)
   data = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
   summ = [' '.join(i['summary']) for i in data]
-  
+
   for idx, i in enumerate(summ):
     if idx % 100 == 0:
       print(idx)
+
+    sents = sent_tokenize(i)
+
     out = extractor.process_one_line(i)
     tmp = [idx for item in range(len(out))]
     tmp1 = [season for item in range(len(out))]
@@ -255,6 +278,39 @@ for season in seasons:
     abs_sents['coref_sent'].extend(origs)
     abs_sents['abs'].extend(abss)
 
+    # abss1 = []
+    # for abs_s in abss:
+    #   tmp = []
+    #   print(abs_s)
+    #   for tok in abs_s.split(' '):
+    #     print(tok)
+    #     try:
+    #       tmp.append(tok.split('-')[1])
+    #     except:
+    #       pass
+    #   print(tmp)
+    #   print(' '.join(tmp))
+    #   abss1.append(' '.join(tmp))
+    #   # abss1.extend([tok.split('-')[1] for tok in abs_s.split(' ')])
+    # # abss1 = [tok.split('-')[1] for abs_s in abss for tok in abs_s.split(' ')]
+    # print(len(sents))
+    # for s in sents:
+    #   print(s)
+    # print()
+    # print(len(origs))
+    # for s in origs:
+    #   print(s)
+    # # print(len(abss1), abss1)
+
+    # for abs_sent in abss:
+    #   # text = [tok.split('-')[1] for tok in abs_sent.split(" ")]
+    #   text = ' '.join(text).replace("_", " ")
+    #   tokens_tensor = tokenizer.encode(text, add_special_tokens=False, return_tensors="pt")
+    #   sent_scores[abs_sent] = ot.score_sent(tokens_tensor)
+
 # game_id is the exact order of items from season json
 df = pd.DataFrame(abs_sents)
+# print(df.shape)
 df.to_csv('./clustering/data/abstract_sentences.csv', index=0)
+# print(df.head())
+# print(sent_scores)

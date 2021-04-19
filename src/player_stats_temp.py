@@ -25,7 +25,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
 from text2num import text2num, NumberException
-from select_imp_players import select_imp_player_on_eff
+from select_imp_players import ImportantPlayers #select_imp_player_on_eff
 from misc import MiscTasks
 
 mt = MiscTasks()
@@ -199,14 +199,30 @@ def extracting_player_stats_templates_from_texts():
     dfp.to_csv(f'./data/case_base/player_stats_problem.csv', index=0)
     dfs.to_csv(f'./data/case_base/player_stats_solution.csv', index=0)
 
-def generating_player_text_from_templates(js, game_idx):
+def generating_player_text_from_templates(js, game_idx, tokenizer):
     # js = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
     # game_idx = 11
-    home_imp_players, vis_imp_players = select_imp_player_on_eff(js[game_idx]['box_score'])
+    
+    imp_ps = ImportantPlayers()
+
     imp_players_stats = {}
+    """
+    # this is using NBA efficiency formula
+    home_imp_players, vis_imp_players = imp_ps.select_imp_player_on_eff(js[game_idx]['box_score'])
     imp_players_stats.update(get_player_score(list(home_imp_players.keys())[:3], js[game_idx]))
     imp_players_stats.update(get_player_score(list(vis_imp_players.keys())[:3], js[game_idx]))
+    """
 
+    # this one's using trained model
+    home_imp_players, vis_imp_players = imp_ps.select_imp_player_by_model(js[game_idx])
+    imp_players_stats.update(get_player_score(home_imp_players[:3], js[game_idx]))
+    imp_players_stats.update(get_player_score(vis_imp_players[:3], js[game_idx]))
+
+    print(imp_players_stats)
+    print()
+
+    ftr_weights = np.array(list(json.load(open('./data/imp_players/ftr_weights.json', 'r')).values()))
+    print(ftr_weights.shape)
 
     cb_player_stats_problem = pd.read_csv(f'./data/case_base/player_stats_problem.csv')
     cb_player_stats_solution = pd.read_csv(f'./data/case_base/player_stats_solution.csv')
@@ -214,6 +230,8 @@ def generating_player_text_from_templates(js, game_idx):
     case_base_sim_ftrs = cb_player_stats_problem['sim_features'].tolist()
     case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
     case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
+    case_base_sim_ftrs_arr = np.multiply(case_base_sim_ftrs_arr, ftr_weights)
+    print(case_base_sim_ftrs_arr.shape)
 
     solution_templates = cb_player_stats_solution['templates'].tolist()
 
@@ -227,7 +245,8 @@ def generating_player_text_from_templates(js, game_idx):
             if not isinstance(v, str):
                 player_sim_ftrs[k] = v
         target_problem_sim_ftrs_arr = np.array(list(player_sim_ftrs.values()))
-        # print(target_problem_sim_ftrs_arr.shape)
+        target_problem_sim_ftrs_arr = np.multiply(target_problem_sim_ftrs_arr, ftr_weights)
+        print(target_problem_sim_ftrs_arr.shape)
 
         # Now calculate the simialrity between case-base and each player
         dists = euclidean_distances(case_base_sim_ftrs_arr, [target_problem_sim_ftrs_arr])
@@ -235,7 +254,7 @@ def generating_player_text_from_templates(js, game_idx):
         dists_arg = np.argsort(dists_1d)[:5]
 
         # proposed solutions
-        proposed_solutions = []
+        proposed_solutions = {}
         for i in dists_arg:
             tmpl = solution_templates[i]
             new_str = ""
@@ -244,11 +263,16 @@ def generating_player_text_from_templates(js, game_idx):
                     new_str += f"{str(player_stats[tok])} "
                 else:
                     new_str += f"{tok} "
-            proposed_solutions.append(new_str)
+            # applying lm-scoring here
+            text = new_str.replace("_", " ")
+            tokens_tensor = tokenizer.encode(text, add_special_tokens=False, return_tensors="pt")
+            score = mt.score_sent(tokens_tensor)
+            proposed_solutions[new_str] = score
 
-        # print(proposed_solutions[0])
-        # print(player_stats)
-        all_players_proposed_solutions[player] = proposed_solutions[0]
+        proposed_solutions_sorted = {k: v for k, v in sorted(proposed_solutions.items(), key=lambda item: item[1])}
+        for idx, (k, v) in enumerate(proposed_solutions_sorted.items()):
+            if idx == 0:
+                all_players_proposed_solutions[player] = k
 
     return all_players_proposed_solutions
 
