@@ -62,6 +62,8 @@ def extracting_team_stats_templates_from_texts():
     for season in [2014, 2015, 2016]:
         js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
         jsons[season] = js1
+    
+    team_names = json.load(open(f'./data/team_names.json', 'r'))['Team Names']
 
     # df = pd.read_csv('./data/clusters/all_clusters.csv')
     df = pd.read_csv(mt.cluster_path)
@@ -85,9 +87,13 @@ def extracting_team_stats_templates_from_texts():
             try:
                 t = text2num(tok)
                 new_toks.append(str(t))
-            except NumberException:
+            except:
                 if tok in nick_names:
                     new_toks.append(nick_names[tok])
+                elif f'{tok}s' in nick_names:
+                    new_toks.append(nick_names[f'{tok}s'])
+                elif f'{tok}s' in team_names:
+                    new_toks.append(f'{tok}s')
                 else:
                     new_toks.append(tok)
         new_sent = ' '.join(new_toks)
@@ -113,8 +119,8 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
 
     target_problem_stats, target_problem_sim_ftrs = get_team_score(score_dict)
     target_problem_sim_ftrs_arr = np.array(list(target_problem_sim_ftrs.values()))
-    print(target_problem_stats)
-    print()
+    # print(target_problem_stats)
+    # print()
 
     cb_teams_stats_problem = pd.read_csv(f'./data/case_base/team_stats_problem.csv')
     cb_teams_stats_solution = pd.read_csv(f'./data/case_base/team_stats_solution.csv')

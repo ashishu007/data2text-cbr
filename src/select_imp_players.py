@@ -9,7 +9,6 @@ import pandas as pd
 
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.linear_model import LogisticRegression
-from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
@@ -94,6 +93,20 @@ class ImportantPlayers:
         y_arr = np.array(new_label)
 
         return x_arr, y_arr
+    
+    def save_data_scaler_model(self):
+        seasons = self.season_splits['train']
+        all_data = [np.load(f'./data/imp_players/{season}_x_arr.npy') for season in seasons]
+        all_data_array = np.concatenate(all_data)
+        all_data_array = all_data_array.reshape(all_data_array.shape[0] * all_data_array.shape[1], all_data_array.shape[2])
+
+        scaler_model = MinMaxScaler(feature_range=(0, 1))
+        scaler_model.fit(all_data_array)
+        # scaler.transform(data)
+
+        scaler_filename = f"./data/imp_players/imp_player_data_scaler.pkl"
+        with open(scaler_filename, 'wb') as file:
+            pickle.dump(scaler_model, file)
 
     def select_imp_player_on_eff(self, box_score):
         """
@@ -141,8 +154,9 @@ class ImportantPlayers:
                     )
         model.fit(train_x, train_y)
 
-        pkl_filename = f"./data/imp_players/imp_player_model_{model_name}.pkl"
-        with open(pkl_filename, 'wb') as file:
+        clf_filename = f"./data/imp_players/imp_player_model_{model_name}.pkl"
+
+        with open(clf_filename, 'wb') as file:
             pickle.dump(model, file)
 
         pred_y = model.predict(test_x)
@@ -151,14 +165,16 @@ class ImportantPlayers:
         # print(pred_y[:100], test_y[:100])
 
         print(model[1])
-        new_coefs = self.normalize_coef(model[1].coef_.reshape(-1, 1))
+        # new_coefs = self.normalize_coef(model[1].coef_.reshape(-1, 1))
+        new_coefs = model[1].coef_.reshape(-1, 1)
         for i in range(self.num_ftrs):
             for j in range(self.num_ftrs + i, self.num_ftrs * self.num_players, self.num_ftrs):
                 new_coefs[i] = new_coefs[i] + new_coefs[j]
         new_coefs = new_coefs[:self.num_ftrs].tolist()
         print(new_coefs[:29])
+        print(new_coefs[-1][0]/self.num_players)
         
-        ftrs_weights = {ftr: new_coefs[idx][0] for idx, ftr in enumerate(self.sim_ftrs)}
+        ftrs_weights = {ftr: new_coefs[idx][0]/self.num_players for idx, ftr in enumerate(self.sim_ftrs)}
         json.dump(ftrs_weights, open('./data/imp_players/ftr_weights.json', 'w'), indent='\t')
 
         return model
@@ -173,12 +189,12 @@ class ImportantPlayers:
             coefs[i] = (val-coefsmin) / (coefsmax-coefsmin)
         return coefs
 
-    def select_imp_player_by_model(self, item):
+    def select_imp_player_by_model(self, clf, item):
         x_arr = self.get_player_sim_ftrs_from_json_item(item)
-        pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"
         
-        with open(pkl_filename, 'rb') as file:
-            clf = pickle.load(file)
+        # pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"
+        # with open(pkl_filename, 'rb') as file:
+        #     clf = pickle.load(file)
         
         pred_y = clf.predict(x_arr)
         
@@ -194,4 +210,20 @@ class ImportantPlayers:
 
 
 # obj = ImportantPlayers()
-# obj.train_model()
+# obj.save_data_scaler_model()
+# clf = obj.train_model()
+# pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"
+# with open(pkl_filename, 'rb') as file:
+#     clf = pickle.load(file)
+# tx, ty = obj.load_split_data('test')
+# py = clf.predict(tx)
+# print(f'Accuracy: {accuracy_score(ty, py)}\t\tMacroF1: {f1_score(ty, py, average="macro")}')
+# print(ty[:100])
+# print(py[:100])
+# # for i, j in zip(range(0, len(tx) - obj.num_players, obj.num_players), range(obj.num_players, len(tx), obj.num_players)):
+# #     print(i, j)
+# #     print(ty[i:j])
+# #     print(py[i:j])
+
+# # print(py.shape, ty.shape)
+

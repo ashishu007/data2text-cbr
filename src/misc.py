@@ -14,6 +14,7 @@ class MiscTasks:
         self.player_clusts = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
         self.defeat_clusts = ['B', 'C']
         self.next_game_clusts = ['J']
+        self.nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
 
         # sentence scoring
         self.model = GPT2LMHeadModel.from_pretrained('./gpt2-finetuned')
@@ -178,17 +179,17 @@ class MiscTasks:
         player_names = json.load(open('./data/player_names.json', 'r'))
         all_atts = json.load(open('./data/atts.json', 'r'))
 
-        start_season = 18
+        start_season = 14
         while (start_season < 19):
             print(start_season)
 
             js = json.load(open(f'./data/jsons/20{start_season}_w_opp.json', 'r'))
             print(len(js))
 
-            imp_players_in_game = []
             x, y = [], []
             for item in js:
                 summ = item['summary']
+                imp_players_in_game = []
 
                 # get the index of all player mentions in the summary
                 for tok in summ:
@@ -226,6 +227,7 @@ class MiscTasks:
                     
                     else:
                         useful_stats.extend([0.0]*max_player_ftrs)
+
                     player_stats.append(useful_stats)
                     imp_flag = 1 if str(player_idx) in imp_players_in_game else 0
                     imp_or_not.append(imp_flag)

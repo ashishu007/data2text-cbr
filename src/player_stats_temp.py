@@ -20,7 +20,7 @@ For example, if a player has scored d-d, a template with d-d cluster will be pic
 I can't add the clusterId as similarity feature because this woudn't be available during testing.
 """
 
-import json
+import json, pickle
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
@@ -30,9 +30,7 @@ from misc import MiscTasks
 
 mt = MiscTasks()
 player_clusters = mt.player_clusts
-# player_clusters = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
-
-nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
+nick_names = mt.nick_names
 all_atts = json.load(open('./data/atts.json', 'r'))
 
 def get_all_ents(score_dict):
@@ -146,6 +144,8 @@ def extracting_player_stats_templates_from_texts():
         js1 = json.load(open(f'./data/jsons/{season}_w_opp.json', 'r'))
         jsons[season] = js1
 
+    team_names = json.load(open(f'./data/team_names.json', 'r'))['Team Names']
+
     # df = pd.read_csv('./data/clusters/all_clusters.csv')
     df = pd.read_csv(mt.cluster_path)
     df1 = df.loc[df['clust'].isin(player_clusters)]
@@ -168,9 +168,13 @@ def extracting_player_stats_templates_from_texts():
             try:
                 t = text2num(tok)
                 new_toks.append(str(t))
-            except NumberException:
+            except:
                 if tok in nick_names:
                     new_toks.append(nick_names[tok])
+                elif f'{tok}s' in nick_names:
+                    new_toks.append(nick_names[f'{tok}s'])
+                elif f'{tok}s' in team_names:
+                    new_toks.append(f'{tok}s')
                 else:
                     new_toks.append(tok)
         new_sent = ' '.join(new_toks)
@@ -214,15 +218,22 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
     """
 
     # this one's using trained model
-    home_imp_players, vis_imp_players = imp_ps.select_imp_player_by_model(js[game_idx])
-    imp_players_stats.update(get_player_score(home_imp_players[:3], js[game_idx]))
-    imp_players_stats.update(get_player_score(vis_imp_players[:3], js[game_idx]))
+    pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"    
+    with open(pkl_filename, 'rb') as file:
+        clf = pickle.load(file)
+    home_imp_players, vis_imp_players = imp_ps.select_imp_player_by_model(clf, js[game_idx])
+    imp_players_stats.update(get_player_score(home_imp_players, js[game_idx]))
+    imp_players_stats.update(get_player_score(vis_imp_players, js[game_idx]))
 
-    print(imp_players_stats)
-    print()
+    # print(imp_players_stats)
+    # print(len(imp_players_stats))
 
     ftr_weights = np.array(list(json.load(open('./data/imp_players/ftr_weights.json', 'r')).values()))
-    print(ftr_weights.shape)
+    # print(ftr_weights.shape)
+    scaler_filename = f"./data/imp_players/imp_player_data_scaler.pkl"
+    with open(scaler_filename, 'rb') as file:
+        scaler_model = pickle.load(file)
+
 
     cb_player_stats_problem = pd.read_csv(f'./data/case_base/player_stats_problem.csv')
     cb_player_stats_solution = pd.read_csv(f'./data/case_base/player_stats_solution.csv')
@@ -230,8 +241,12 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
     case_base_sim_ftrs = cb_player_stats_problem['sim_features'].tolist()
     case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
     case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
+    # apply scaling
+    # print(case_base_sim_ftrs_arr.shape)
+    case_base_sim_ftrs_arr = scaler_model.transform(case_base_sim_ftrs_arr)
+    # apply feature weights
     case_base_sim_ftrs_arr = np.multiply(case_base_sim_ftrs_arr, ftr_weights)
-    print(case_base_sim_ftrs_arr.shape)
+    # print(case_base_sim_ftrs_arr.shape)
 
     solution_templates = cb_player_stats_solution['templates'].tolist()
 
@@ -245,11 +260,14 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
             if not isinstance(v, str):
                 player_sim_ftrs[k] = v
         target_problem_sim_ftrs_arr = np.array(list(player_sim_ftrs.values()))
+        # apply data scaling
+        target_problem_sim_ftrs_arr = scaler_model.transform([target_problem_sim_ftrs_arr])
+        # apply feature weights
         target_problem_sim_ftrs_arr = np.multiply(target_problem_sim_ftrs_arr, ftr_weights)
-        print(target_problem_sim_ftrs_arr.shape)
+        # print(target_problem_sim_ftrs_arr.shape)
 
         # Now calculate the simialrity between case-base and each player
-        dists = euclidean_distances(case_base_sim_ftrs_arr, [target_problem_sim_ftrs_arr])
+        dists = euclidean_distances(case_base_sim_ftrs_arr, target_problem_sim_ftrs_arr)
         dists_1d = dists.ravel()
         dists_arg = np.argsort(dists_1d)[:5]
 
