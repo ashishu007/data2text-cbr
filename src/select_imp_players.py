@@ -148,8 +148,8 @@ class ImportantPlayers:
                         MinMaxScaler(feature_range=(0, 1)),
                         # StandardScaler(), 
                         LogisticRegression(
-                            random_state=0, solver='sag',
-                            class_weight='balanced', max_iter=300
+                            random_state=0,
+                            class_weight='balanced', max_iter=500
                         )
                     )
         model.fit(train_x, train_y)
@@ -209,9 +209,9 @@ class ImportantPlayers:
         return home_ips, vis_ips
 
 
-# obj = ImportantPlayers()
+obj = ImportantPlayers()
 # obj.save_data_scaler_model()
-# clf = obj.train_model()
+clf = obj.train_model()
 # pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"
 # with open(pkl_filename, 'rb') as file:
 #     clf = pickle.load(file)

@@ -308,9 +308,5 @@ for season in seasons:
     #   tokens_tensor = tokenizer.encode(text, add_special_tokens=False, return_tensors="pt")
     #   sent_scores[abs_sent] = ot.score_sent(tokens_tensor)
 
-# game_id is the exact order of items from season json
 df = pd.DataFrame(abs_sents)
-# print(df.shape)
 df.to_csv('./clustering/data/abstract_sentences.csv', index=0)
-# print(df.head())
-# print(sent_scores)

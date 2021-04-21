@@ -55,10 +55,12 @@ sh final.sh
 13. Plot cluster paths 
 14. ~~Scale the input (sim ftrs) data~~
 15. Use alignment for feature importance
+16. How many summaries follow the defined higher-leve template
+17. Improve template generation with codes from rw_fg
 
 ## LM-Scoring
 The [lm-scorer](https://github.com/simonepri/lm-scorer) library doesn't work on Python 3.8+ so I used GPT2 to score sentences.
-I fine-tuned a GPT2 model on the Rotowire data using [huggingface's transformers](https://github.com/huggingface/transformers) library.
+I fine-tuned a GPT2 model on the Rotowire data using [huggingface's transformers](https://github.com/huggingface/transformers) library and used the model to get perplexity for each proposed solution.
 
 
 <!-- 
