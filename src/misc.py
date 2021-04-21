@@ -1,7 +1,9 @@
 import json
+import pickle
 import pandas as pd
 import numpy as np 
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 """
 This file will contain several small chunks of codes to do some non-trivial tasks
@@ -170,7 +172,7 @@ class MiscTasks:
         return score
     # ------------------------------ Sentence Scoring -------------------------------------
 
-    # ------------------------------ Svae Train/Valid/Test data for imp_players -------------------------------------
+    # ------------------------------ Save Train/Valid/Test data for imp_players -------------------------------------
     def save_train_data_for_imp_players(self):
         """
         1. also add is_leader feature to the list
@@ -246,4 +248,17 @@ class MiscTasks:
             np.save(open(f'./data/imp_players/20{start_season}_y_arr.npy', 'wb'), y_arr)
 
             start_season += 1
-    # ------------------------------ Svae Train/Valid/Test data for imp_players -------------------------------------
+    # ------------------------------ Save Train/Valid/Test data for imp_players -------------------------------------
+
+    # ------------------------------ Save Train/Valid/Test data for imp_players -------------------------------------
+    def save_data_scaler_model(self, component='team'):
+        csv_filename = f'./data/case_base/{component}_stats_problem.csv'
+        all_data_arr = np.array([list(json.loads(item).values()) for item in list(pd.read_csv(csv_filename)['sim_features'])])
+        print(all_data_arr.shape)
+        scaler_model = MinMaxScaler(feature_range=(0, 1))
+        scaler_model.fit(all_data_arr)
+
+        scaler_filename = f"./data/align_data/{component}/data_scaler.pkl"
+        with open(scaler_filename, 'wb') as file:
+            pickle.dump(scaler_model, file)
+

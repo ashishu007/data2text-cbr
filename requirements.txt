@@ -1,10 +1,10 @@
-git+https://github.com/huggingface/neuralcoref
+spacy==2.3.5
+neuralcoref
 nltk
 numpy
 pandas
 pyswarms
 sentence_transformers
 sklearn
-spacy==2.3.5
 torch
 transformers

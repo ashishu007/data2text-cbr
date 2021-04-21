@@ -1,6 +1,13 @@
 # dynamic-temp-nlg
 NLG with dynamic templates
 
+## Requirements
+
+Run:
+```bash
+pip install -r requirements.txt
+```
+
 ## Process
 
 ### Create Clusters

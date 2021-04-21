@@ -2,34 +2,30 @@
 Use alignment for feature weighting
 """
 import json
+import time
 import pickle
 import numpy as np
 import pyswarms as ps
 import pandas as pd
+from sklearn import preprocessing
 from sklearn.metrics import ndcg_score
-from sklearn.metrics.pairwise import euclidean_distances, cosine_similarity
+from sklearn.metrics.pairwise import euclidean_distances
 from sentence_transformers import SentenceTransformer
 
-roberta_model = SentenceTransformer('paraphrase-distilroberta-base-v1')
-
 class CaseAlignMeasure:
-    def __init__(self):
-        self.top_k = 5
-        self.num_player_ftrs = 29
-        self.num_team_ftrs = 23
-        self.problem_side_csv = pd.read_csv(f'./data/case_base/player_stats_problem.csv')
-        self.solution_side_csv = pd.read_csv(f'./data/case_base/player_stats_solution.csv')
+    def __init__(self, component='player'):
+        self.top_k = 100
+        self.problem_side_csv = pd.read_csv(f'./data/case_base/{component}_stats_problem.csv')
+        self.solution_side_csv = pd.read_csv(f'./data/case_base/{component}_stats_solution.csv')
         self.case_base = {
             "problem_side": [list(json.loads(i).values()) for i in list(self.problem_side_csv['sim_features'])],
             "solution_side": list(self.solution_side_csv['templates'])
         }
-        self.scaler_model = pickle.load(open('./data/imp_players/imp_player_data_scaler.pkl', 'rb'))
-        self.embedded_solutions = roberta_model.encode(self.case_base['solution_side'])
-
-    def get_vector_similarity(self, vec1, vec2):
-        v1 = np.reshape(vec1, (1, -1))
-        v2 = np.reshape(vec2, (1, -1))
-        return cosine_similarity(v1, v2)[0][0]
+        self.num_max_ftrs = len(self.case_base['problem_side'][0])
+        self.scaler_model = pickle.load(open(f'./data/align_data/{component}/data_scaler.pkl', 'rb'))
+        self.roberta_model = SentenceTransformer('paraphrase-distilroberta-base-v1')
+        self.embedded_solutions = preprocessing.normalize(self.roberta_model.encode(self.case_base['solution_side']))
+        self.feature_names = list(json.loads(self.problem_side_csv['sim_features'][0]).keys())
 
     def get_align_score(self, problem_list, solution_list):
         """
@@ -68,13 +64,15 @@ def problem_lists_function(p):
     This should give the list of problem side lists for all examples in the train set
     """
     
-    problem_side_cb = cam_obj.scaler_model.transform(np.array(cam_obj.case_base['problem_side'])).tolist()
+    problem_side_cb = cam_obj.scaler_model.transform(np.array(cam_obj.case_base['problem_side']))
     # print(len(problem_side_cb))
 
     problem_lists, solutions = [], []
     for idx, case in enumerate(problem_side_cb):
         target_problem_arr = np.multiply(np.array(case), p)
-        case_base_arr = np.multiply(np.array([i for idx1, i in enumerate(problem_side_cb) if idx1 != idx]), p)
+        case_base_arr = np.multiply(np.delete(problem_side_cb, idx, axis=0), p)
+        # print("case_base_arr.shape, problem_side_cb.shape", case_base_arr.shape, problem_side_cb.shape)
+        # case_base_arr = np.multiply(np.array([i for idx1, i in enumerate(problem_side_cb) if idx1 != idx]), p)
         dists = euclidean_distances(case_base_arr, [target_problem_arr])
         dists_1d = dists.ravel()
         dists_arg = np.argsort(dists_1d)
@@ -114,7 +112,9 @@ def forward_prop(params):
     solution_lists = []
     for idx, case in enumerate(solution_side_cb):
         target_solution_arr = generated_solutions[idx]
-        case_base_solution_arr = np.array([i for idx1, i in enumerate(solution_side_cb) if idx1 != idx])
+        # case_base_solution_arr = np.array([i for idx1, i in enumerate(solution_side_cb) if idx1 != idx])
+        case_base_solution_arr = np.delete(solution_side_cb, idx, axis=0)
+        # print("case_base_solution_arr.shape, solution_side_cb.shape", case_base_solution_arr.shape, solution_side_cb.shape)
         dists = euclidean_distances(case_base_solution_arr, [target_solution_arr])
         dists_1d = dists.ravel()
         dists_arg = np.argsort(dists_1d)
@@ -129,7 +129,7 @@ def forward_prop(params):
         all_align.append(cam_obj.get_align_score(pl.tolist(), sl.tolist()))
 
     loss = 1 - np.mean(np.array(all_align))
-    # print("loss", loss)
+    print("loss", loss)
 
     return loss
 
@@ -151,23 +151,24 @@ def f(x):
     j = [forward_prop(x[i]) for i in range(n_particles)]
     return np.array(j)
 
-print("Constructing main...")
-cam_obj = CaseAlignMeasure()
-print("Constructed!!\n\n")
-# params = np.random.rand((29))
-# # problem_lists_function(params)
-# print(forward_prop(params))
+def train_pso(component='player'):
+    print("Constructing main...")
+    cam_obj = CaseAlignMeasure(component=component)
+    print("Constructed!!\n\n")
+
+    print("Initialize swarm")
+    options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
+
+    print("Call instance of PSO")
+    dimensions = cam_obj.num_max_ftrs
+    optimizer = ps.single.GlobalBestPSO(n_particles=2, dimensions=dimensions, options=options)
+
+    print("Perform optimization")
+    cost, pos = optimizer.optimize(f, iters=1)
+
+    print("Saving Features")
+    ftrs_weights = {ftr: pos[idx] for idx, ftr in enumerate(cam_obj.feature_names)}
+    json.dump(ftrs_weights, open(f'./data/align_data/{component}/feature_weights.json', 'w'), indent='\t')
 
 
-# Initialize swarm
-options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
-
-# Call instance of PSO
-dimensions = cam_obj.num_player_ftrs
-optimizer = ps.single.GlobalBestPSO(n_particles=100, dimensions=dimensions, options=options)
-
-# Perform optimization
-cost, pos = optimizer.optimize(f, iters=10)
-
-print(pos)
-
+train_pso(component='player')
