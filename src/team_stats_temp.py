@@ -13,11 +13,45 @@ from misc import MiscTasks
 from sklearn.metrics.pairwise import euclidean_distances
 
 mt = MiscTasks()
-
 team_clusters = mt.team_clusts
-
-nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
+nick_names = mt.nick_names
 all_atts = json.load(open('./data/atts.json', 'r'))
+
+def get_all_ents(score_dict):
+    players = set()
+    teams = set()
+
+    players.update(score_dict['box_score']['PLAYER_NAME'].values())
+    players.update(score_dict['box_score']['FIRST_NAME'].values())
+    players.update(score_dict['box_score']['SECOND_NAME'].values())
+
+    teams.add(score_dict['home_name'])
+    teams.add(score_dict['vis_name'])
+    
+    teams.add(score_dict['home_city'])
+    teams.add(score_dict['vis_city'])
+    
+    teams.add(f"{score_dict['home_city']} {score_dict['home_name']}")
+    teams.add(f"{score_dict['vis_city']} {score_dict['vis_name']}")
+
+    all_ents = teams | players
+
+    return all_ents, teams, players
+
+def extract_entities(all_ents, sent):
+    toks = sent.split(' ')
+    sent_ents = []
+    i = 0
+    while i < len(toks):
+        if toks[i] in all_ents:
+            j = 1
+            while i+j <= len(toks) and " ".join(toks[i:i+j]) in all_ents:
+                j += 1
+            sent_ents.append(" ".join(toks[i:i+j-1]))
+            i += j-1
+        else:
+            i += 1
+    return list(set(sent_ents))
 
 def get_team_score(score_dict):
 
@@ -81,7 +115,8 @@ def extracting_team_stats_templates_from_texts():
         game_idx = row['game_idx']
         js = jsons[row['season']]
         score_dict = js[game_idx]
-        
+        all_ents, team_ents, player_ents = get_all_ents(score_dict)
+
         new_toks = []
         for tok in sent.split(' '):
             try:
@@ -98,13 +133,18 @@ def extracting_team_stats_templates_from_texts():
                     new_toks.append(tok)
         new_sent = ' '.join(new_toks)
 
-        teams_stats, sim_ftrs = get_team_score(score_dict)
-        template, used_atts = ext_team_temp_from_sent(new_sent, teams_stats)
+        teams = extract_entities(team_ents, new_sent)
+        team_ents_found = True if len(teams) > 0 else False
+        # print(teams)
 
-        problem_side["sentences"].append(new_sent)
-        problem_side["sim_features"].append(json.dumps(sim_ftrs))
-        solution_side["templates"].append(template)
-        solution_side["used_attributes"].append(used_atts)
+        if team_ents_found and len(teams) > 1:
+            teams_stats, sim_ftrs = get_team_score(score_dict)
+            template, used_atts = ext_team_temp_from_sent(new_sent, teams_stats)
+
+            problem_side["sentences"].append(new_sent)
+            problem_side["sim_features"].append(json.dumps(sim_ftrs))
+            solution_side["templates"].append(template)
+            solution_side["used_attributes"].append(used_atts)
 
     dfp = pd.DataFrame(problem_side)
     dfs = pd.DataFrame(solution_side)
@@ -165,3 +205,4 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
 # game_idx = 11
 # s = generating_team_text_from_templates(test_json, 11)
 # print(s)
+# extracting_team_stats_templates_from_texts()

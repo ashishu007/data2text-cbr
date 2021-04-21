@@ -1,6 +1,7 @@
 """
 Use alignment for feature weighting
 """
+import sys
 import json
 import time
 import pickle
@@ -151,24 +152,24 @@ def f(x):
     j = [forward_prop(x[i]) for i in range(n_particles)]
     return np.array(j)
 
-def train_pso(component='player'):
-    print("Constructing main...")
-    cam_obj = CaseAlignMeasure(component=component)
-    print("Constructed!!\n\n")
-
+def train_pso(cam_obj, component='player'):
     print("Initialize swarm")
-    options = {'c1': 0.5, 'c2': 0.3, 'w':0.9}
+    options = {'c1':2, 'c2':2, 'w':1}
 
     print("Call instance of PSO")
     dimensions = cam_obj.num_max_ftrs
-    optimizer = ps.single.GlobalBestPSO(n_particles=2, dimensions=dimensions, options=options)
+    optimizer = ps.single.GlobalBestPSO(n_particles=10, dimensions=dimensions, options=options)
 
     print("Perform optimization")
-    cost, pos = optimizer.optimize(f, iters=1)
+    cost, pos = optimizer.optimize(f, iters=50)
 
     print("Saving Features")
     ftrs_weights = {ftr: pos[idx] for idx, ftr in enumerate(cam_obj.feature_names)}
     json.dump(ftrs_weights, open(f'./data/align_data/{component}/feature_weights.json', 'w'), indent='\t')
 
-
-train_pso(component='player')
+print("Constructing main...")
+component = sys.argv[1]
+cam_obj = CaseAlignMeasure(component=component)
+print(cam_obj.problem_side_csv.shape)
+print("Constructed!!\n\n")
+train_pso(cam_obj, component=component)

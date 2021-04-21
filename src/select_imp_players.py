@@ -209,17 +209,19 @@ class ImportantPlayers:
         return home_ips, vis_ips
 
 
-obj = ImportantPlayers()
+# obj = ImportantPlayers()
 # obj.save_data_scaler_model()
-clf = obj.train_model()
+# clf = obj.train_model()
 # pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"
 # with open(pkl_filename, 'rb') as file:
 #     clf = pickle.load(file)
 # tx, ty = obj.load_split_data('test')
 # py = clf.predict(tx)
 # print(f'Accuracy: {accuracy_score(ty, py)}\t\tMacroF1: {f1_score(ty, py, average="macro")}')
-# print(ty[:100])
-# print(py[:100])
+# pp = [(i, j) for i, j in zip(ty[1200:1300], py[1200:1300])]
+# print(pp)
+# print(ty[1200:1300])
+# print(py[1200:1300])
 # # for i, j in zip(range(0, len(tx) - obj.num_players, obj.num_players), range(obj.num_players, len(tx), obj.num_players)):
 # #     print(i, j)
 # #     print(ty[i:j])

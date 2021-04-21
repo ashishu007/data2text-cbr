@@ -162,7 +162,7 @@ def extracting_player_stats_templates_from_texts():
         js = jsons[row['season']]
         score_dict = js[game_idx]
         all_ents, team_ents, player_ents = get_all_ents(score_dict)
-        
+
         new_toks = []
         for tok in sent.split(' '):
             try:
