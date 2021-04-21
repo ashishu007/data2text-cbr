@@ -1,0 +1,10 @@
+neuralcoref==4.1.0
+nltk
+numpy
+pandas
+pyswarms
+sentence_transformers
+sklearn
+spacy==2.3.5
+torch
+transformers
