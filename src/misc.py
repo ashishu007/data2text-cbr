@@ -27,7 +27,7 @@ class MiscTasks:
         # Here I'm trying to add a feature to define next game's opponent explicitly
         start_season = 14
 
-        while (start_season < 19):
+        while (start_season < 15):
             print(f'{start_season}')
             js = json.load(open(f'./data/jsons/20{start_season}_new_atts_w_stand_streak.json', 'r'))
             # print(js[0].keys(), js[0]['home_next_game'].keys())
@@ -250,7 +250,7 @@ class MiscTasks:
             start_season += 1
     # ------------------------------ Save Train/Valid/Test data for imp_players -------------------------------------
 
-    # ------------------------------ Save Train/Valid/Test data for imp_players -------------------------------------
+    # ------------------------------ Save data scaler model -------------------------------------
     def save_data_scaler_model(self, component='team'):
         csv_filename = f'./data/case_base/{component}_stats_problem.csv'
         all_data_arr = np.array([list(json.loads(item).values()) for item in list(pd.read_csv(csv_filename)['sim_features'])])
@@ -261,4 +261,32 @@ class MiscTasks:
         scaler_filename = f"./data/align_data/{component}/data_scaler.pkl"
         with open(scaler_filename, 'wb') as file:
             pickle.dump(scaler_model, file)
+    # ------------------------------ Save data scaler model -------------------------------------
 
+    # ------------------------------ Revise winner data -------------------------------------
+    def decide_winner(self, item):
+        hpts = int(item['home_line']['TEAM-PTS'])
+        vpts = int(item['vis_line']['TEAM-PTS'])
+        
+        if hpts > vpts:
+            item['home_line']['WINNER'] = 'yes'
+            item['vis_line']['WINNER'] = 'no'
+        elif vpts > hpts:
+            item['home_line']['WINNER'] = 'no'
+            item['vis_line']['WINNER'] = 'yes'
+        elif vpts == hpts:
+            item['home_line']['WINNER'] = 'yes'
+            item['vis_line']['WINNER'] = 'yes'
+
+        return item
+    # ------------------------------ Revise winner data -------------------------------------
+    
+# mt = MiscTasks()
+# mt.add_next_opponent()
+# for s in [14, 15, 16, 17, 18]:
+#     print(s)
+#     js = json.load(open(f'./data/jsons/20{s}_w_opp.json', 'r'))
+#     new_js = []
+#     for item in js:
+#         new_js.append(mt.decide_winner(item))
+#     json.dump(new_js, open(f'./data/jsons/20{s}_w_opp.json', 'w'))

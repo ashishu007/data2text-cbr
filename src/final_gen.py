@@ -15,7 +15,7 @@ tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 rfg  = RulesForGeneration()
 print("Constructed!!\n\n")
 
-for game_idx in range(len(js)):
+for game_idx in range(len(js[:2])):
 
     # if game_idx == 0:
     # def_next = generate_defeat_and_next_game(js, game_idx, tokenizer)
@@ -49,7 +49,7 @@ for game_idx in range(len(js)):
 
     test_preds.append(final_sol)
 
-# with open('./output/only_2014_training_data.txt', 'w') as f:
-with open(f'./output/{sys.argv[1]}', 'w') as f:
-    f.write('\n'.join(test_preds))
+# # with open('./output/only_2014_training_data.txt', 'w') as f:
+# with open(f'./output/{sys.argv[1]}', 'w') as f:
+#     f.write('\n'.join(test_preds))
 

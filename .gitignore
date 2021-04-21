@@ -6,8 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
-# gpt2 model
+# transformer models
 gpt2-finetuned/
+roberta-finetuned/
 
 # Distribution / packaging
 .Python

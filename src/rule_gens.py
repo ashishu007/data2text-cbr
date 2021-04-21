@@ -23,7 +23,9 @@ class RulesForGeneration:
         # defeat templates
         self.dts = {
             "dt1": "The host HOME-TEAM-PLACE HOME-TEAM-NAME ( HOME-TEAM-WINS - HOME-TEAM-LOSSES ) defeated the visiting VIS-TEAM-PLACE VIS-TEAM-NAME ( VIS-TEAM-WINS - VIS-TEAM-LOSSES ) HOME-TEAM-PTS - VIS-TEAM-PTS at STADIUM on DAYNAME .",
-            "dt2": "The visiting VIS-TEAM-PLACE VIS-TEAM-NAME ( VIS-TEAM-WINS - VIS-TEAM-LOSSES ) defeated the host HOME-TEAM-PLACE HOME-TEAM-NAME ( HOME-TEAM-WINS - HOME-TEAM-LOSSES ) VIS-TEAM-PTS - HOME-TEAM-PTS at STADIUM on DAYNAME ."
+            "dt2": "The visiting VIS-TEAM-PLACE VIS-TEAM-NAME ( VIS-TEAM-WINS - VIS-TEAM-LOSSES ) defeated the host HOME-TEAM-PLACE HOME-TEAM-NAME ( HOME-TEAM-WINS - HOME-TEAM-LOSSES ) VIS-TEAM-PTS - HOME-TEAM-PTS at STADIUM on DAYNAME .",
+            "dt3": "VIS-LEADER_FIRST_NAME VIS-LEADER_SECOND_NAME paced the VIS-TEAM-PLACE VIS-TEAM-NAME to a VIS-TEAM-PTS - HOME-TEAM-PTS win against HOME-TEAM-PLACE HOME-TEAM-NAME on DAYNAME at STADIUM in HOME-TEAM-PLACE .",
+            "dt4": "HOME-LEADER_FIRST_NAME HOME-LEADER_SECOND_NAME paced the HOME-TEAM-PLACE HOME-TEAM-NAME to a HOME-TEAM-PTS - VIS-TEAM-PTS win against VIS-TEAM-PLACE VIS-TEAM-NAME on DAYNAME at STADIUM in HOME-TEAM-PLACE ."
         }
 
     def generate_from_template(self, template, data):
@@ -36,10 +38,17 @@ class RulesForGeneration:
         return ' '.join(new_toks)        
     
     def get_defeat_template(self, data):
+        # print(data)
         if data['HOME-WINNER'] == 'yes':
-            template = self.dts["dt1"]
+            if int(data['HOME-TEAM-PTS']) - int(data['VIS-TEAM-PTS']) > 10:
+                template = self.dts[f"dt4"]
+            else:
+                template = self.dts[f"dt1"]
         else:
-            template = self.dts["dt2"]
+            if int(data['VIS-TEAM-PTS']) - int(data['HOME-TEAM-PTS']) > 10:
+                template = self.dts[f"dt4"]
+            else:
+                template = self.dts[f"dt2"]
 
         return template
 
@@ -113,7 +122,7 @@ class RulesForGeneration:
 # rfg = RulesForGeneration()
 # for idx, i in enumerate(js):
 #     if idx % 100 == 0:
-#     # if idx == 0:
+#     # if idx == 300:
 #         print(idx, rfg.generate_defeat_sentence(i))
-#         print(idx, rfg.generate_next_game_sentence(i))
+#         # print(idx, rfg.generate_next_game_sentence(i))
 #         print()

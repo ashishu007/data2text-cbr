@@ -222,15 +222,21 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
     with open(pkl_filename, 'rb') as file:
         clf = pickle.load(file)
     home_imp_players, vis_imp_players = imp_ps.select_imp_player_by_model(clf, js[game_idx])
-    imp_players_stats.update(get_player_score(home_imp_players, js[game_idx]))
-    imp_players_stats.update(get_player_score(vis_imp_players, js[game_idx]))
+    if len(home_imp_players) > 3:
+        imp_players_stats.update(get_player_score(home_imp_players[:3], js[game_idx]))
+    else:
+        imp_players_stats.update(get_player_score(home_imp_players, js[game_idx]))
+    if len(vis_imp_players) > 3:
+        imp_players_stats.update(get_player_score(vis_imp_players[:3], js[game_idx]))
+    else:
+        imp_players_stats.update(get_player_score(vis_imp_players, js[game_idx]))
 
     # print(imp_players_stats)
     # print(len(imp_players_stats))
 
-    ftr_weights = np.array(list(json.load(open('./data/imp_players/ftr_weights.json', 'r')).values()))
+    ftr_weights = np.array(list(json.load(open('./data/align_data/player/feature_weights.json', 'r')).values()))
     # print(ftr_weights.shape)
-    scaler_filename = f"./data/imp_players/imp_player_data_scaler.pkl"
+    scaler_filename = f"./data/align_data/player/data_scaler.pkl"
     with open(scaler_filename, 'rb') as file:
         scaler_model = pickle.load(file)
 
@@ -242,7 +248,6 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
     case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
     case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
     # apply scaling
-    # print(case_base_sim_ftrs_arr.shape)
     case_base_sim_ftrs_arr = scaler_model.transform(case_base_sim_ftrs_arr)
     # apply feature weights
     case_base_sim_ftrs_arr = np.multiply(case_base_sim_ftrs_arr, ftr_weights)

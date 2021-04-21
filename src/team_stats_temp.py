@@ -6,11 +6,13 @@ Extract teams' related templates
 """
 
 import json
+import pickle
 import pandas as pd
 import numpy as np
 from text2num import text2num, NumberException
 from misc import MiscTasks
 from sklearn.metrics.pairwise import euclidean_distances
+from transformers import GPT2Tokenizer
 
 mt = MiscTasks()
 team_clusters = mt.team_clusts
@@ -157,10 +159,10 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
 
     score_dict = test_json[game_idx]
 
-    target_problem_stats, target_problem_sim_ftrs = get_team_score(score_dict)
-    target_problem_sim_ftrs_arr = np.array(list(target_problem_sim_ftrs.values()))
-    # print(target_problem_stats)
-    # print()
+    ftr_weights = np.array(list(json.load(open('./data/align_data/team/feature_weights.json', 'r')).values()))
+    scaler_filename = f"./data/align_data/team/data_scaler.pkl"
+    with open(scaler_filename, 'rb') as file:
+        scaler_model = pickle.load(file)
 
     cb_teams_stats_problem = pd.read_csv(f'./data/case_base/team_stats_problem.csv')
     cb_teams_stats_solution = pd.read_csv(f'./data/case_base/team_stats_solution.csv')
@@ -168,10 +170,18 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
     case_base_sim_ftrs = cb_teams_stats_problem['sim_features'].tolist()
     case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
     case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
+    case_base_sim_ftrs_arr = scaler_model.transform(case_base_sim_ftrs_arr)
+    case_base_sim_ftrs_arr = np.multiply(case_base_sim_ftrs_arr, ftr_weights)
 
     solution_templates = cb_teams_stats_solution['templates'].tolist()
 
-    dists = euclidean_distances(case_base_sim_ftrs_arr, [target_problem_sim_ftrs_arr])
+    target_problem_stats, target_problem_sim_ftrs = get_team_score(score_dict)
+    target_problem_sim_ftrs_arr = np.array(list(target_problem_sim_ftrs.values()))
+    target_problem_sim_ftrs_arr = scaler_model.transform([target_problem_sim_ftrs_arr])
+    target_problem_sim_ftrs_arr = np.multiply(target_problem_sim_ftrs_arr, ftr_weights)
+
+
+    dists = euclidean_distances(case_base_sim_ftrs_arr, target_problem_sim_ftrs_arr)
     dists_1d = dists.ravel()
     dists_arg = np.argsort(dists_1d)[:5]
 
@@ -195,14 +205,14 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
     proposed_solutions_sorted = {k: v for k, v in sorted(proposed_solutions.items(), key=lambda item: item[1])}
     team_stats_final_sol = {}
     for idx, (k, v) in enumerate(proposed_solutions_sorted.items()):
-        if idx < 2:
+        if idx == 2:
             team_stats_final_sol[f'team{idx+1}'] = k
 
     return team_stats_final_sol
 
-
+# tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 # test_json = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
 # game_idx = 11
-# s = generating_team_text_from_templates(test_json, 11)
+# s = generating_team_text_from_templates(test_json, 200, tokenizer)
 # print(s)
-# extracting_team_stats_templates_from_texts()
+# # extracting_team_stats_templates_from_texts()
