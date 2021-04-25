@@ -46,22 +46,28 @@ sh create_cluster.sh
 sh final.sh
 ```
 
+
+1. Create clusters
+2. Train Feature Weighting
+3. Train important player classifier
+4. Do generation
+
 ## TODO
 1. ~~Extract templates for players/teams stats~~
 2. ~~Rank/Select important players (currently done based on efficiency)~~
 3. ~~Generate sentences for players stats~~
 4. ~~Generate sentences for teams stats~~
-5. ~~Learn weights of the features~~ (although only player features done)
+5. ~~Learn weights of the features~~ 
 6. Possibly select players' combinations (with other players and with teams)
 7. Experiment on lesser training data
 8. ~~Apply lm-scoring on template generation (just after clustering maybe)~~
 9. ~~Apply lm-scoring on selecting top sentence after generation~~
 10. Select clusters based on num-teams and players in the sentences
-11. Generate defeat and next-game based on rules
+11. ~~Generate defeat and next-game based on rules~~
 12. If there's a number in the template that doesn't match the stats json, don't take the template
 13. Plot cluster paths 
 14. ~~Scale the input (sim ftrs) data~~
-15. Use alignment for feature importance
+15. ~~Use alignment for feature importance~~
 16. How many summaries follow the defined higher-leve template
 17. Improve template generation with codes from rw_fg
 

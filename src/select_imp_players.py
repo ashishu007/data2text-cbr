@@ -11,6 +11,8 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.feature_selection import mutual_info_classif
+from tpot import TPOTClassifier
 
 atts_js = json.load(open(f'./data/atts.json', 'r'))
 
@@ -137,7 +139,34 @@ class ImportantPlayers:
 
         return hpe, vpe
 
+    def train_tpot_model(self):
+        print("\n\ninside tpot\n\n")
+        train_x, train_y = self.load_split_data(split='train')
+        test_x, test_y = self.load_split_data(split='valid')
+        print(train_x.shape, train_y.shape)
+        print(test_x.shape, test_y.shape)
+        tpot = TPOTClassifier(generations=5, population_size=10, verbosity=2, random_state=42)
+        tpot.fit(train_x, train_y)
+        print(tpot.score(test_x, test_y))
+        tpot.export('./src/tpot_imp_players.py')
+        return tpot
     
+    def tpot_trained_imp_player_classifier(self):
+        train_x, train_y = self.load_split_data(split='train')
+        test_x, test_y = self.load_split_data(split='test')
+        print(train_x.shape, train_y.shape)
+        print(test_x.shape, test_y.shape)
+
+        exported_pipeline = LogisticRegression(C=20.0, dual=False, penalty="l2")
+        # Fix random state in exported estimator
+        if hasattr(exported_pipeline, 'random_state'):
+            setattr(exported_pipeline, 'random_state', 42)
+        exported_pipeline.fit(train_x, train_y)
+        results = exported_pipeline.predict(test_x)
+
+        print(f'Acc: {accuracy_score(test_y, results)*100:.2f}\tMF1: {f1_score(test_y, results, average="macro")*100:.2f}')
+        pickle.dump(exported_pipeline, open(f'./data/imp_players/tpot_best_model_imp_player_classifier.pkl', 'wb'))
+
     def train_model(self, model_name='lr'):
         train_x, train_y = self.load_split_data(split='train')
         test_x, test_y = self.load_split_data(split='valid')
@@ -208,8 +237,26 @@ class ImportantPlayers:
 
         return home_ips, vis_ips
 
+    def ftr_imp_info_gain(self):
+        train_x, train_y = self.load_split_data(split='train')
+        scaler_model = MinMaxScaler(feature_range=(0, 1))
+        train_x_scaled = scaler_model.fit_transform(train_x)
+        print(train_x_scaled.shape, train_y.shape)
+        importances = mutual_info_classif(train_x, train_y)
+        importances_arr = np.array(importances)
+        for i in range(self.num_ftrs):
+            for j in range(self.num_ftrs + i, self.num_ftrs * self.num_players, self.num_ftrs):
+                importances_arr[i] = importances_arr[i] + importances_arr[j]
+        importances_arr = importances_arr[:self.num_ftrs].tolist()
+        print(importances_arr)
+        ftrs_weights = {ftr: importances_arr[idx]/self.num_players for idx, ftr in enumerate(self.sim_ftrs)}
+        json.dump(ftrs_weights, open('./data/imp_players/ftr_weights_info_gain.json', 'w'), indent='\t')
+
 
 # obj = ImportantPlayers()
+# obj.tpot_trained_imp_player_classifier()
+# obj.train_tpot_model()
+# obj.ftr_imp_info_gain()
 # obj.save_data_scaler_model()
 # clf = obj.train_model()
 # pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"

@@ -1,7 +1,7 @@
 echo " "
 echo "Create abstract sentences"
 echo " "
-python3 clustering/create_abs.py num_sample_id_4
+python3 clustering/create_abs.py num_sample_id_1
 
 echo " "
 echo "Assign clusters"

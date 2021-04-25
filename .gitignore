@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+.DS_Store
+
 # transformer models
 gpt2-finetuned/
 roberta-finetuned/

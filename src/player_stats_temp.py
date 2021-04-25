@@ -218,7 +218,7 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
     """
 
     # this one's using trained model
-    pkl_filename = f"./data/imp_players/imp_player_model_lr.pkl"    
+    pkl_filename = f"./data/imp_players/tpot_best_model_imp_player_classifier.pkl"    
     with open(pkl_filename, 'rb') as file:
         clf = pickle.load(file)
     home_imp_players, vis_imp_players = imp_ps.select_imp_player_by_model(clf, js[game_idx])
