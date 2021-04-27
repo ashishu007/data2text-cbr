@@ -17,7 +17,7 @@ all_atts = json.load(open('./data/atts.json', 'r'))
 def generating_player_text_from_templates(js, game_idx, tokenizer):
     # js = json.load(open(f'./data/jsons/2018_w_opp.json', 'r'))
     # game_idx = 11
-    
+
     imp_ps = ImportantPlayers()
 
     imp_players_stats = {}

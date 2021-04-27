@@ -70,8 +70,8 @@ def extracting_player_stats_templates_from_texts():
     dfs = pd.DataFrame(solution_side)
     print(dfs.shape)
     print(dfp.shape)
-    # dfp.to_csv(f'./data/case_base/player_stats_problem.csv', index=0)
-    # dfs.to_csv(f'./data/case_base/player_stats_solution.csv', index=0)
+    dfp.to_csv(f'./data/case_base/player_stats_problem.csv', index=0)
+    dfs.to_csv(f'./data/case_base/player_stats_solution.csv', index=0)
 
 def extracting_team_stats_templates_from_texts():
     jsons = {}
@@ -132,8 +132,8 @@ def extracting_team_stats_templates_from_texts():
     dfs = pd.DataFrame(solution_side)
     print(dfs.shape)
     print(dfp.shape)
-    # dfp.to_csv(f'./data/case_base/team_stats_problem.csv', index=0)
-    # dfs.to_csv(f'./data/case_base/team_stats_solution.csv', index=0)
+    dfp.to_csv(f'./data/case_base/team_stats_problem.csv', index=0)
+    dfs.to_csv(f'./data/case_base/team_stats_solution.csv', index=0)
 
 print(f'extracting players stats templates')
 extracting_player_stats_templates_from_texts()
