@@ -59,7 +59,7 @@ sh final.sh
 4. ~~Generate sentences for teams stats~~
 5. ~~Learn weights of the features~~ 
 6. Possibly select players' combinations (with other players and with teams)
-7. Experiment on lesser training data
+7. ~~Experiment on lesser training data~~
 8. ~~Apply lm-scoring on template generation (just after clustering maybe)~~
 9. ~~Apply lm-scoring on selecting top sentence after generation~~
 10. Select clusters based on num-teams and players in the sentences
@@ -70,6 +70,7 @@ sh final.sh
 15. ~~Use alignment for feature importance~~
 16. How many summaries follow the defined higher-leve template
 17. Improve template generation with codes from rw_fg
+18. Experiment on basic attributes data
 
 ## LM-Scoring
 The [lm-scorer](https://github.com/simonepri/lm-scorer) library doesn't work on Python 3.8+ so I used GPT2 to score sentences.

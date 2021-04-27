@@ -16,7 +16,9 @@ class MiscTasks:
         self.player_clusts = ['A', 'D', 'E', 'G', 'H', 'I', 'N', 'O', 'R', 'T', 'V']
         self.defeat_clusts = ['B', 'C']
         self.next_game_clusts = ['J']
-        self.nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City"}
+        self.nick_names = {"Sixers": "76ers", "Cavs": "Cavaliers", "T'wolves": "Timberwolves", 
+                            "Blazers": "Trail_Blazers", "OKC": "Oklahoma_City", 'Wolves': 'Timberwolves',
+                            'Mavs': 'Mavericks'}
 
         # sentence scoring
         self.model = GPT2LMHeadModel.from_pretrained('./gpt2-finetuned')
@@ -220,7 +222,7 @@ class MiscTasks:
                                     val = 1 if v == 'yes' else 0
                                     useful_stats.append(val)
 
-                        # here is_leader feature can be added
+                        # here is_leader feature is added
                         if item['box_score']['IS_HOME'][str(player_idx)] == 'yes':
                             val = 1 if item['box_score']['PLAYER_NAME'][str(player_idx)] == f"{item['home_line']['LEADER_FIRST_NAME']} {item['home_line']['LEADER_SECOND_NAME']}" else 0
                         else:
@@ -280,7 +282,19 @@ class MiscTasks:
 
         return item
     # ------------------------------ Revise winner data -------------------------------------
-    
+
+    # ------------------------------ Measure correlation -------------------------------------
+    def measure_corr_coeff(self):
+        mutual_info_ftrs = list(json.load(open('./data/imp_players/ftr_weights_info_gain.json', 'r')).values())
+        classif_ftrs = list(json.load(open('./data/imp_players/ftr_weights.json', 'r')).values())
+        ca_ftrs = list(json.load(open('./data/align_data/player/feature_weights.json', 'r')).values())
+
+        print(f"(mutual_info_ftrs, classif_ftrs):\n{np.corrcoef(mutual_info_ftrs, classif_ftrs)}\n")
+        print(f"(mutual_info_ftrs, ca_ftrs):\n{np.corrcoef(mutual_info_ftrs, ca_ftrs)}\n")
+        print(f"(classif_ftrs, ca_ftrs):\n{np.corrcoef(classif_ftrs, ca_ftrs)}\n")
+    # ------------------------------ Measure correlation -------------------------------------
+
+
 # mt = MiscTasks()
 # mt.add_next_opponent()
 # for s in [14, 15, 16, 17, 18]:

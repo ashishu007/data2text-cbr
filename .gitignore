@@ -7,10 +7,17 @@ __pycache__/
 *.so
 
 .DS_Store
+*.zip
+*.pt
+*.dict
+*.labels
+*.h5
 
 # transformer models
 gpt2-finetuned/
 roberta-finetuned/
+ie/
+useless/
 
 # Distribution / packaging
 .Python

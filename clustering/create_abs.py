@@ -23,6 +23,10 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
+"""
+Credits to [Craig Thomson](https://github.com/nlgcat) for this piece of code.
+"""
+
 class OtherTasks:
     def __init__(self):
         # sentence scoring

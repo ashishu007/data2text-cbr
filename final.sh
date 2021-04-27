@@ -14,6 +14,11 @@
 # python3 src/final_ext_temp.py
 
 # echo " "
+# echo "Training Important Player classifier and saving data scaler"
+# echo " "
+# python3 src/select_imp_players.py
+
+# echo " "
 # echo "Feature Weighting of Team"
 # echo " "
 # python3 src/feature_weighting.py team
@@ -26,4 +31,6 @@
 echo " "
 echo "Generating Sentences from Templates"
 echo " "
-python3 src/final_gen.py ca_ftr_wts_gen_new.txt
+python3 src/final_gen.py ca_ftr_wts_gen_basic_atts.txt
+
+

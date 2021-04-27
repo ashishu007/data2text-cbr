@@ -12,8 +12,8 @@ import pyswarms as ps
 
 from sklearn import preprocessing
 from sklearn.metrics import ndcg_score
-from sklearn.metrics.pairwise import euclidean_distances
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import euclidean_distances, cosine_similarity
 
 from sentence_transformers import SentenceTransformer
 from transformers import RobertaTokenizer, RobertaModel
@@ -167,7 +167,8 @@ def forward_prop(params):
         # case_base_solution_arr = np.array([i for idx1, i in enumerate(solution_side_cb) if idx1 != idx])
         case_base_solution_arr = np.delete(solution_side_cb, idx, axis=0)
         # print("case_base_solution_arr.shape, solution_side_cb.shape", case_base_solution_arr.shape, solution_side_cb.shape)
-        dists = euclidean_distances(case_base_solution_arr, [target_solution_arr])
+        # dists = euclidean_distances(case_base_solution_arr, [target_solution_arr])
+        dists = cosine_similarity(case_base_solution_arr, [target_solution_arr])
         dists_1d = dists.ravel()
         dists_arg = np.argsort(dists_1d)
         solution_lists.append(dists_arg)
