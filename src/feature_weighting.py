@@ -20,7 +20,7 @@ from transformers import RobertaTokenizer, RobertaModel
 
 class CaseAlignMeasure:
     def __init__(self, component='player'):
-        self.top_k = 50
+        self.top_k = 99
         self.problem_side_csv = pd.read_csv(f'./data/case_base/{component}_stats_problem.csv')
         self.solution_side_csv = pd.read_csv(f'./data/case_base/{component}_stats_solution.csv')
 
@@ -48,10 +48,10 @@ class CaseAlignMeasure:
         # self.tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
         # self.embedded_solutions = self.embed_sentences_using_ft_roberta()
 
-        # self.roberta_model = SentenceTransformer('paraphrase-distilroberta-base-v1')
-        # self.embedded_solutions = preprocessing.normalize(self.roberta_model.encode(self.case_base['solution_side']))
+        self.roberta_model = SentenceTransformer('paraphrase-distilroberta-base-v1')
+        self.embedded_solutions = preprocessing.normalize(self.roberta_model.encode(self.case_base['solution_side']))
 
-        self.embedded_solutions = preprocessing.normalize(TfidfVectorizer(max_features=1000).fit_transform(self.case_base['solution_side']).toarray())
+        # self.embedded_solutions = preprocessing.normalize(TfidfVectorizer(max_features=1000).fit_transform(self.case_base['solution_side']).toarray())
 
     def embed_sentences_using_ft_roberta(self):
         # tokenized = csv_file['templates'].apply((lambda x: tokenizer.encode(x, add_special_tokens=True)))
@@ -97,7 +97,7 @@ class CaseAlignMeasure:
             # sol_rank[sol_ind] = ((self.top_k + 1) - i)/100
             sol_rank[sol_ind] = (self.top_k + 1) - i
 
-        ndcg = ndcg_score([prob_rank], [sol_rank])
+        ndcg = ndcg_score([prob_rank[:self.top_k]], [sol_rank[:self.top_k]])
         return ndcg
 
 def problem_lists_function(p):
