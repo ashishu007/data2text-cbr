@@ -45,7 +45,8 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
     # print(imp_players_stats)
     # print(len(imp_players_stats))
 
-    ftr_weights = np.array(list(json.load(open('./data/align_data/player/feature_weights.json', 'r')).values()))
+    # ftr_weights = np.array(list(json.load(open('./data/align_data/player/feature_weights.json', 'r')).values()))
+    ftr_weights = np.array(list(json.load(open('./data/imp_players/ftr_weights_info_gain.json', 'r')).values()))
     # print(ftr_weights.shape)
     scaler_filename = f"./data/align_data/player/data_scaler.pkl"
     with open(scaler_filename, 'rb') as file:
@@ -108,6 +109,10 @@ def generating_player_text_from_templates(js, game_idx, tokenizer):
             if idx == 0:
                 all_players_proposed_solutions[player] = k
 
+        # for idx, (k, v) in enumerate(proposed_solutions.items()):
+        #     if idx == 0:
+        #         all_players_proposed_solutions[player] = k
+
     return all_players_proposed_solutions
 
 
@@ -127,14 +132,14 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
     case_base_sim_ftrs = [json.loads(i) for i in case_base_sim_ftrs]
     case_base_sim_ftrs_arr = np.array([list(i.values()) for i in case_base_sim_ftrs])
     case_base_sim_ftrs_arr = scaler_model.transform(case_base_sim_ftrs_arr)
-    case_base_sim_ftrs_arr = np.multiply(case_base_sim_ftrs_arr, ftr_weights)
+    # case_base_sim_ftrs_arr = np.multiply(case_base_sim_ftrs_arr, ftr_weights)
 
     solution_templates = cb_teams_stats_solution['templates'].tolist()
 
     target_problem_stats, target_problem_sim_ftrs = teu.get_team_score(score_dict)
     target_problem_sim_ftrs_arr = np.array(list(target_problem_sim_ftrs.values()))
     target_problem_sim_ftrs_arr = scaler_model.transform([target_problem_sim_ftrs_arr])
-    target_problem_sim_ftrs_arr = np.multiply(target_problem_sim_ftrs_arr, ftr_weights)
+    # target_problem_sim_ftrs_arr = np.multiply(target_problem_sim_ftrs_arr, ftr_weights)
 
     dists = euclidean_distances(case_base_sim_ftrs_arr, target_problem_sim_ftrs_arr)
     dists_1d = dists.ravel()
@@ -160,8 +165,13 @@ def generating_team_text_from_templates(test_json, game_idx, tokenizer):
     proposed_solutions_sorted = {k: v for k, v in sorted(proposed_solutions.items(), key=lambda item: item[1])}
     team_stats_final_sol = {}
     for idx, (k, v) in enumerate(proposed_solutions_sorted.items()):
-        if idx == 2:
+        if idx == 0:
             team_stats_final_sol[f'team{idx+1}'] = k
+
+    # team_stats_final_sol = {}
+    # for idx, (k, v) in enumerate(proposed_solutions.items()):
+    #     if idx == 0:
+    #         team_stats_final_sol[f'team{idx+1}'] = k
 
     return team_stats_final_sol
 

@@ -18,19 +18,19 @@
 # echo " "
 # python3 src/select_imp_players.py
 
-echo " "
-echo "Feature Weighting of Team"
-echo " "
-python3 src/feature_weighting.py team
+# echo " "
+# echo "Feature Weighting of Team"
+# echo " "
+# python3 src/feature_weighting.py team
 
-echo " "
-echo "Feature Weighting of Player"
-echo " "
-python3 src/feature_weighting.py player
+# echo " "
+# echo "Feature Weighting of Player"
+# echo " "
+# python3 src/feature_weighting.py player
 
 echo " "
 echo "Generating Sentences from Templates"
 echo " "
-python3 src/final_gen.py ca_ftr_wts_gen_basic_atts_all_seasons.txt
+python3 src/final_gen.py info_gain_ftr_wts_gen_basic_atts_all_seasons.txt
 
 

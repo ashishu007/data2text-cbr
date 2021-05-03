@@ -1,4 +1,6 @@
 import json
+from text2num import text2num
+from nltk import word_tokenize
 
 class TemplateExtractionUtility:
     def __init__(self):
@@ -41,9 +43,20 @@ class TemplateExtractionUtility:
                 i += 1
         return list(set(sent_ents))
 
+    def str_nums_to_int_nums(self, sent):
+        new_toks = []
+        for tok in word_tokenize(sent):
+            try:
+                t = text2num(tok)
+                new_toks.append(str(t))
+            except:
+                new_toks.append(tok)
+        return ' '.join(new_toks)
+
     def ext_temp_from_sent(self, sent, stats):
         new_toks, used_atts = [], []
-        for tok in sent.split(' '):
+        new_sent = self.str_nums_to_int_nums(sent)
+        for tok in new_sent.split(' '):
             found = False
             key = ''
             for k, v in stats.items():

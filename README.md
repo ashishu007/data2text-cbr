@@ -8,7 +8,7 @@ Run:
 pip install -r requirements.txt
 ```
 
-## Process
+<!-- ## Process
 
 ### Create Clusters
 1. Cluster the messages/sentences from training summaries
@@ -32,26 +32,36 @@ pip install -r requirements.txt
 3. Use the top most similar template to generate the solution for each component
     * Use LM-Scoring to select the best out of 5/10
 4. Combine the solutions
-    * Use REG (Referring Expression Generation) here
+    * Use REG (Referring Expression Generation) here -->
 
 ## How to Run
 
-1. Create the clusters
+<!-- 1. Create the clusters
 ```bash
 sh create_cluster.sh
-```
+``` -->
 
-2. Do generation
+<!-- 2. Do generation
+```bash
+sh final.sh
+``` -->
+
+### Download the GPT2 finetuned model
+
+Download the fine-tuned GPT2 model from [GDrive](https://drive.google.com/drive/folders/11q4pXX_MPB8P-XNdDfznq9KhnhcMZqol?usp=sharing).
+It's a zip folder, unzip the files into a `gpt2-finetuned` folder in root directory.
+
 ```bash
 sh final.sh
 ```
 
-
 1. Create clusters
 2. Train Feature Weighting
 3. Train important player classifier
-4. Do generation
+4. Create Case-Base
+5. Do generation
 
+<!-- 
 ## TODO
 1. ~~Extract templates for players/teams stats~~
 2. ~~Rank/Select important players (currently done based on efficiency)~~
@@ -74,7 +84,7 @@ sh final.sh
 
 ## LM-Scoring
 The [lm-scorer](https://github.com/simonepri/lm-scorer) library doesn't work on Python 3.8+ so I used GPT2 to score sentences.
-I fine-tuned a GPT2 model on the Rotowire data using [huggingface's transformers](https://github.com/huggingface/transformers) library and used the model to get perplexity for each proposed solution.
+I fine-tuned a GPT2 model on the Rotowire data using [huggingface's transformers](https://github.com/huggingface/transformers) library and used the model to get perplexity for each proposed solution. -->
 
 
 <!-- 

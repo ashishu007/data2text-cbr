@@ -12,6 +12,7 @@ __pycache__/
 *.dict
 *.labels
 *.h5
+*.zip
 
 # transformer models
 gpt2-finetuned/

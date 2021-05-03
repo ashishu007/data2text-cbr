@@ -2,6 +2,7 @@ import json
 import pickle
 import pandas as pd
 import numpy as np 
+from nltk import word_tokenize
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
@@ -289,13 +290,50 @@ class MiscTasks:
         classif_ftrs = list(json.load(open('./data/imp_players/ftr_weights.json', 'r')).values())
         ca_ftrs = list(json.load(open('./data/align_data/player/feature_weights.json', 'r')).values())
 
-        print(f"(mutual_info_ftrs, classif_ftrs):\n{np.corrcoef(mutual_info_ftrs, classif_ftrs)}\n")
+        print(len(mutual_info_ftrs), len(classif_ftrs), len(ca_ftrs))
+
+        # print(f"(mutual_info_ftrs, classif_ftrs):\n{np.corrcoef(mutual_info_ftrs, classif_ftrs)}\n")
         print(f"(mutual_info_ftrs, ca_ftrs):\n{np.corrcoef(mutual_info_ftrs, ca_ftrs)}\n")
-        print(f"(classif_ftrs, ca_ftrs):\n{np.corrcoef(classif_ftrs, ca_ftrs)}\n")
+        # print(f"(classif_ftrs, ca_ftrs):\n{np.corrcoef(classif_ftrs, ca_ftrs)}\n")
     # ------------------------------ Measure correlation -------------------------------------
+
+    # ------------------------------ Vocab count from gen file -------------------------------------
+    def count_vocab_of_gen_file(self):
+        temp = open(f'./output/rulebased-new.txt', 'r').readlines()
+        cbr = open(f'./output/ca_ftr_wts_gen_basic_atts.txt', 'r').readlines()
+        neur = open(f'./output/useless/neural_alls.txt', 'r').readlines()
+        gold = open(f'./output/useless/gold.txt', 'r').readlines()
+
+        tu, cu, nu, gu = set(), set(), set(), set()
+        for i, j, k, l in zip(temp, cbr, neur, gold):
+            tu.update(word_tokenize(i))
+            cu.update(word_tokenize(j))
+            nu.update(word_tokenize(k))
+            gu.update(word_tokenize(l))
+        
+        print(len(tu), len(cu), len(nu), len(gu))
+    # ------------------------------ Vocab count from gen file -------------------------------------
+
+    # ------------------------------ Tup count from gen file -------------------------------------
+    def count_unique_tups(self):
+        temp = open(f'./output/useless/rule_tups.txt', 'r').readlines()
+        cbr = open(f'./output/useless/cbr_tups.txt', 'r').readlines()
+        neur = open(f'./output/useless/neural_tups.txt', 'r').readlines()
+        gold = open(f'./output/useless/gold_tups.txt', 'r').readlines()
+
+        temp = set([i.strip().split("|")[2] for i in temp if i.strip() != ''])
+        cbr = set([i.strip().split("|")[2] for i in cbr if i.strip() != ''])
+        neur = set([i.strip().split("|")[2] for i in neur if i.strip() != ''])
+        gold = set([i.strip().split("|")[2] for i in gold if i.strip() != ''])
+
+        print(len(temp), len(cbr), len(neur), len(gold))
+    # ------------------------------ Tup count from gen file -------------------------------------
 
 
 # mt = MiscTasks()
+# mt.measure_corr_coeff()
+# mt.count_unique_tups()
+# mt.count_vocab_of_gen_file()
 # mt.add_next_opponent()
 # for s in [14, 15, 16, 17, 18]:
 #     print(s)
