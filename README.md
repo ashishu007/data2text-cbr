@@ -1,5 +1,5 @@
-# dynamic-temp-nlg
-NLG with dynamic templates
+# Data2Text-CBR
+Data-to-Text Generation with Case-Based Reasoning
 
 ## Requirements
 
