@@ -55,6 +55,10 @@ It's a zip folder, unzip the files into a `gpt2-finetuned` folder in root direct
 
 Download the trained LaserTagger model from [GDrive](https://drive.google.com/file/d/1uZI-ozhOj2KwzDjZDbgTro2JplDLGSXA/view?usp=sharing). Put the contens of this zip folder into `src/laserTagger/models` folder.
 
+You'll also need to download a pretrained BERT model from the [official repository](https://github.com/google-research/bert#pre-trained-models).
+You need to download the 12-layer ''BERT-Base, Cased'' model. Put the contents inside `src/laserTagger/bert` folder.
+
+
 ### Run
 
 ```bash
