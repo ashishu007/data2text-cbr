@@ -58,6 +58,7 @@ Download the trained LaserTagger model from [GDrive](https://drive.google.com/fi
 You'll also need to download a pretrained BERT model from the [official repository](https://github.com/google-research/bert#pre-trained-models).
 You need to download the 12-layer ''BERT-Base, Cased'' model. Put the contents inside `src/laserTagger/bert` folder.
 
+Note: there might be some issues with the TensorFlow version used in LaserTagger. You might need to run it in a virtua-environment then. Anyhow, even without LaserTagger generation can be done and there won't be any noticable difference in the metric scores.
 
 ### Run
 
