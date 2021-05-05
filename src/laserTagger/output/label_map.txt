@@ -1,0 +1,1003 @@
+KEEP
+DELETE
+SWAP
+KEEP|he
+DELETE|he
+KEEP|his
+DELETE|his
+KEEP|they
+DELETE|they
+KEEP|their
+DELETE|their
+KEEP|the
+DELETE|the
+KEEP|it
+DELETE|it
+KEEP|them
+DELETE|them
+KEEP|'
+DELETE|'
+KEEP|its
+DELETE|its
+KEEP|him
+DELETE|him
+KEEP|team
+DELETE|team
+KEEP|this
+DELETE|this
+KEEP|themselves
+DELETE|themselves
+KEEP|himself
+DELETE|himself
+KEEP|both
+DELETE|both
+KEEP|the team
+DELETE|the team
+KEEP|sacramento
+DELETE|sacramento
+KEEP|that
+DELETE|that
+KEEP|’
+DELETE|’
+KEEP|utah
+DELETE|utah
+KEEP|him his
+DELETE|him his
+KEEP|those
+DELETE|those
+KEEP|(
+DELETE|(
+KEEP|five
+DELETE|five
+KEEP|andre drummond
+DELETE|andre drummond
+KEEP|both teams
+DELETE|both teams
+KEEP|itself
+DELETE|itself
+KEEP|reggie jackson
+DELETE|reggie jackson
+KEEP|game
+DELETE|game
+KEEP|his team
+DELETE|his team
+KEEP|james
+DELETE|james
+KEEP|marvin williams
+DELETE|marvin williams
+KEEP|hassan whiteside
+DELETE|hassan whiteside
+KEEP|'s
+DELETE|'s
+KEEP|these teams
+DELETE|these teams
+KEEP|michael beasley
+DELETE|michael beasley
+KEEP|michael carter-williams
+DELETE|michael carter-williams
+KEEP|second
+DELETE|second
+KEEP|their next game
+DELETE|their next game
+KEEP|win
+DELETE|win
+KEEP|the big man
+DELETE|the big man
+KEEP|tyler
+DELETE|tyler
+KEEP|williams
+DELETE|williams
+KEEP|they each
+DELETE|they each
+KEEP|struggling
+DELETE|struggling
+KEEP|paul millsap
+DELETE|paul millsap
+KEEP|these
+DELETE|these
+KEEP|this team
+DELETE|this team
+KEEP|deron williams
+DELETE|deron williams
+KEEP|andrew wiggins
+DELETE|andrew wiggins
+KEEP|seven
+DELETE|seven
+KEEP|fourth
+DELETE|fourth
+KEEP|young
+DELETE|young
+KEEP|mo williams
+DELETE|mo williams
+KEEP|thaddeus young
+DELETE|thaddeus young
+KEEP|this one
+DELETE|this one
+KEEP|this game
+DELETE|this game
+KEEP|( 2 - 2 )
+DELETE|( 2 - 2 )
+KEEP|eastern_conference
+DELETE|eastern_conference
+KEEP|paul george
+DELETE|paul george
+KEEP|derrick williams
+DELETE|derrick williams
+KEEP|these two teams
+DELETE|these two teams
+KEEP|lou williams
+DELETE|lou williams
+KEEP|jordan
+DELETE|jordan
+KEEP|( 10 )
+DELETE|( 10 )
+KEEP|the second
+DELETE|the second
+KEEP|as a team
+DELETE|as a team
+KEEP|they both
+DELETE|they both
+KEEP|the trail_blazers
+DELETE|the trail_blazers
+KEEP|teams
+DELETE|teams
+KEEP|jeff teague
+DELETE|jeff teague
+KEEP|six
+DELETE|six
+KEEP|otto porter
+DELETE|otto porter
+KEEP|tony parker
+DELETE|tony parker
+KEEP|carmelo anthony
+DELETE|carmelo anthony
+KEEP|the raptors
+DELETE|the raptors
+KEEP|nets
+DELETE|nets
+KEEP|atlantic
+DELETE|atlantic
+KEEP|aaron gordon
+DELETE|aaron gordon
+KEEP|chris paul
+DELETE|chris paul
+KEEP|them their
+DELETE|them their
+KEEP|( 1 - 1 )
+DELETE|( 1 - 1 )
+KEEP|they 've
+DELETE|they 've
+KEEP|all
+DELETE|all
+KEEP|jackson
+DELETE|jackson
+KEEP|timberwolves
+DELETE|timberwolves
+KEEP|both players
+DELETE|both players
+KEEP|defense
+DELETE|defense
+KEEP|davis
+DELETE|davis
+KEEP|( 4 - 3 )
+DELETE|( 4 - 3 )
+KEEP|markieff
+DELETE|markieff
+KEEP|three
+DELETE|three
+KEEP|hawks
+DELETE|hawks
+KEEP|tony allen
+DELETE|tony allen
+KEEP|and
+DELETE|and
+KEEP|four
+DELETE|four
+KEEP|home team
+DELETE|home team
+KEEP|third
+DELETE|third
+KEEP|first
+DELETE|first
+KEEP|( 11 - 8 )
+DELETE|( 11 - 8 )
+KEEP|host los_angeles
+DELETE|host los_angeles
+KEEP|( 2 - 1 )
+DELETE|( 2 - 1 )
+KEEP|( 3 - 3 )
+DELETE|( 3 - 3 )
+KEEP|( 7 - 3 )
+DELETE|( 7 - 3 )
+KEEP|( 3 - 4 )
+DELETE|( 3 - 4 )
+KEEP|two
+DELETE|two
+KEEP|( 2 - 3 )
+DELETE|( 2 - 3 )
+KEEP|( 3 - 1 )
+DELETE|( 3 - 1 )
+KEEP|’ s
+DELETE|’ s
+KEEP|next game
+DELETE|next game
+KEEP|( 4 - 2 )
+DELETE|( 4 - 2 )
+KEEP|joe johnson
+DELETE|joe johnson
+KEEP|a
+DELETE|a
+KEEP|amir johnson
+DELETE|amir johnson
+KEEP|los_angeles
+DELETE|los_angeles
+KEEP|george
+DELETE|george
+KEEP|king
+DELETE|king
+KEEP|johnson
+DELETE|johnson
+KEEP|star
+DELETE|star
+KEEP|the third
+DELETE|the third
+KEEP|the star
+DELETE|the star
+KEEP|they all
+DELETE|they all
+KEEP|morris
+DELETE|morris
+KEEP|( 5 - 3 )
+DELETE|( 5 - 3 )
+KEEP|( 10 - 7 )
+DELETE|( 10 - 7 )
+KEEP|frank kaminsky
+DELETE|frank kaminsky
+KEEP|mavs
+DELETE|mavs
+KEEP|ship
+DELETE|ship
+KEEP|( 5 - 2 )
+DELETE|( 5 - 2 )
+KEEP|central
+DELETE|central
+KEEP|( 5 - 5 )
+DELETE|( 5 - 5 )
+KEEP|center
+DELETE|center
+KEEP|as a whole
+DELETE|as a whole
+KEEP|alan williams
+DELETE|alan williams
+KEEP|dario saric
+DELETE|dario saric
+KEEP|ben mclemore
+DELETE|ben mclemore
+KEEP|their bench
+DELETE|their bench
+KEEP|paul
+DELETE|paul
+KEEP|pacers
+DELETE|pacers
+KEEP|raptors
+DELETE|raptors
+KEEP|louis williams
+DELETE|louis williams
+KEEP|southeast
+DELETE|southeast
+KEEP|here
+DELETE|here
+KEEP|surging
+DELETE|surging
+KEEP|the magic
+DELETE|the magic
+KEEP|one steal
+DELETE|one steal
+KEEP|saric
+DELETE|saric
+KEEP|( 23 - 30 )
+DELETE|( 23 - 30 )
+KEEP|( 4 - 4 )
+DELETE|( 4 - 4 )
+KEEP|( 6 - 2 )
+DELETE|( 6 - 2 )
+KEEP|( 39 - 30 )
+DELETE|( 39 - 30 )
+KEEP|( 9 - 9 )
+DELETE|( 9 - 9 )
+KEEP|( 21 - 19 )
+DELETE|( 21 - 19 )
+KEEP|( 6 - 4 )
+DELETE|( 6 - 4 )
+KEEP|( 4 - 5 )
+DELETE|( 4 - 5 )
+KEEP|( 11 - 25 )
+DELETE|( 11 - 25 )
+KEEP|( 20 )
+DELETE|( 20 )
+KEEP|( 6 - 3 )
+DELETE|( 6 - 3 )
+KEEP|hornets
+DELETE|hornets
+KEEP|they outscored
+DELETE|they outscored
+KEEP|gordon hayward
+DELETE|gordon hayward
+KEEP|( 1 - 2 )
+DELETE|( 1 - 2 )
+KEEP|( 5 - 1 )
+DELETE|( 5 - 1 )
+KEEP|trail_blazers
+DELETE|trail_blazers
+KEEP|bulls
+DELETE|bulls
+KEEP|( 13 - 12 )
+DELETE|( 13 - 12 )
+KEEP|mavericks
+DELETE|mavericks
+KEEP|( 13 - 27 )
+DELETE|( 13 - 27 )
+KEEP|jeremy lin
+DELETE|jeremy lin
+KEEP|bench
+DELETE|bench
+KEEP|nuggets
+DELETE|nuggets
+KEEP|tobias harris
+DELETE|tobias harris
+KEEP|red - hot
+DELETE|red - hot
+KEEP|gerald henderson
+DELETE|gerald henderson
+KEEP|show
+DELETE|show
+KEEP|marcus
+DELETE|marcus
+KEEP|the fourth
+DELETE|the fourth
+KEEP|evans
+DELETE|evans
+KEEP|anthony davis
+DELETE|anthony davis
+KEEP|boris diaw
+DELETE|boris diaw
+KEEP|aldridge
+DELETE|aldridge
+KEEP|nine
+DELETE|nine
+KEEP|new - look
+DELETE|new - look
+KEEP|sixers
+DELETE|sixers
+KEEP|theirs
+DELETE|theirs
+KEEP|southwest
+DELETE|southwest
+KEEP|offense
+DELETE|offense
+KEEP|shorthanded
+DELETE|shorthanded
+KEEP|the veteran
+DELETE|the veteran
+KEEP|contest
+DELETE|contest
+KEEP|( 48 - 31 )
+DELETE|( 48 - 31 )
+KEEP|the host
+DELETE|the host
+KEEP|( 49 - 31 )
+DELETE|( 49 - 31 )
+KEEP|( 14 - 10 )
+DELETE|( 14 - 10 )
+KEEP|( 7 - 4 )
+DELETE|( 7 - 4 )
+KEEP|terry rozier
+DELETE|terry rozier
+KEEP|( 10 - 8 )
+DELETE|( 10 - 8 )
+KEEP|( 16 - 16 )
+DELETE|( 16 - 16 )
+KEEP|( 19 - 19 )
+DELETE|( 19 - 19 )
+KEEP|( 18 - 27 )
+DELETE|( 18 - 27 )
+KEEP|second unit
+DELETE|second unit
+KEEP|( 4 - 1 )
+DELETE|( 4 - 1 )
+KEEP|starters
+DELETE|starters
+KEEP|( 30 )
+DELETE|( 30 )
+KEEP|( 15 - 13 )
+DELETE|( 15 - 13 )
+KEEP|( 20 - 16 )
+DELETE|( 20 - 16 )
+KEEP|( 23 - 32 )
+DELETE|( 23 - 32 )
+KEEP|( 12 - 22 )
+DELETE|( 12 - 22 )
+KEEP|( 12 - 9 )
+DELETE|( 12 - 9 )
+KEEP|bullock
+DELETE|bullock
+KEEP|( 20 - 45 )
+DELETE|( 20 - 45 )
+KEEP|( 42 - 36 )
+DELETE|( 42 - 36 )
+KEEP|crabbe
+DELETE|crabbe
+KEEP|( 7 - 5 )
+DELETE|( 7 - 5 )
+KEEP|jayson tatum
+DELETE|jayson tatum
+KEEP|( 18 - 39 )
+DELETE|( 18 - 39 )
+KEEP|( 9 - 5 )
+DELETE|( 9 - 5 )
+KEEP|( 9 - 20 )
+DELETE|( 9 - 20 )
+KEEP|pelicans
+DELETE|pelicans
+KEEP|( 18 - 32 )
+DELETE|( 18 - 32 )
+KEEP|the kings
+DELETE|the kings
+KEEP|his new team
+DELETE|his new team
+KEEP|his former team
+DELETE|his former team
+KEEP|( 8 - 7 )
+DELETE|( 8 - 7 )
+KEEP|( 8 - 8 )
+DELETE|( 8 - 8 )
+KEEP|( 10 - 10 )
+DELETE|( 10 - 10 )
+KEEP|( 5 - 9 )
+DELETE|( 5 - 9 )
+KEEP|19
+DELETE|19
+KEEP|( 7 - 7 )
+DELETE|( 7 - 7 )
+KEEP|( 26 - 25 )
+DELETE|( 26 - 25 )
+KEEP|( 13 - 9 )
+DELETE|( 13 - 9 )
+KEEP|( 17 - 29 )
+DELETE|( 17 - 29 )
+KEEP|aaron
+DELETE|aaron
+KEEP|( 46 - 34 )
+DELETE|( 46 - 34 )
+KEEP|( 14 - 14 )
+DELETE|( 14 - 14 )
+KEEP|( 33 - 26 )
+DELETE|( 33 - 26 )
+KEEP|( 24 - 28 )
+DELETE|( 24 - 28 )
+KEEP|host utah
+DELETE|host utah
+KEEP|( 38 - 26 )
+DELETE|( 38 - 26 )
+KEEP|( 21 - 17 )
+DELETE|( 21 - 17 )
+KEEP|fox
+DELETE|fox
+KEEP|roy hibbert
+DELETE|roy hibbert
+KEEP|tim duncan
+DELETE|tim duncan
+KEEP|lou
+DELETE|lou
+KEEP|( 18 - 15 )
+DELETE|( 18 - 15 )
+KEEP|drummond
+DELETE|drummond
+KEEP|bucks
+DELETE|bucks
+KEEP|his last five games
+DELETE|his last five games
+KEEP|next
+DELETE|next
+KEEP|mike conley
+DELETE|mike conley
+KEEP|on the other hand
+DELETE|on the other hand
+KEEP|in
+DELETE|in
+KEEP|only other
+DELETE|only other
+KEEP|alone
+DELETE|alone
+KEEP|out
+DELETE|out
+KEEP|league
+DELETE|league
+KEEP|deron
+DELETE|deron
+KEEP|dwight howard
+DELETE|dwight howard
+KEEP|nicolas batum
+DELETE|nicolas batum
+KEEP|the two
+DELETE|the two
+KEEP|this contest
+DELETE|this contest
+KEEP|37
+DELETE|37
+KEEP|visiting
+DELETE|visiting
+KEEP|this win
+DELETE|this win
+KEEP|westbrook
+DELETE|westbrook
+KEEP|melo
+DELETE|melo
+KEEP|ailing
+DELETE|ailing
+KEEP|danilo gallinari
+DELETE|danilo gallinari
+KEEP|' starting five
+DELETE|' starting five
+KEEP|player
+DELETE|player
+KEEP|shooting
+DELETE|shooting
+KEEP|warriors
+DELETE|warriors
+KEEP|the two teams
+DELETE|the two teams
+KEEP|streaking
+DELETE|streaking
+KEEP|jamal crawford
+DELETE|jamal crawford
+KEEP|their next
+DELETE|their next
+KEEP|the veteran big man
+DELETE|the veteran big man
+KEEP|reserves
+DELETE|reserves
+KEEP|joe
+DELETE|joe
+KEEP|their defense
+DELETE|their defense
+KEEP|( 18 - 7 )
+DELETE|( 18 - 7 )
+KEEP|the second unit
+DELETE|the second unit
+KEEP|( 6 - 5 )
+DELETE|( 6 - 5 )
+KEEP|( 8 - 2 )
+DELETE|( 8 - 2 )
+KEEP|delon wright
+DELETE|delon wright
+KEEP|( 32 - 37 )
+DELETE|( 32 - 37 )
+KEEP|( 13 - 25 )
+DELETE|( 13 - 25 )
+KEEP|powerhouse
+DELETE|powerhouse
+KEEP|jamal murray
+DELETE|jamal murray
+KEEP|( 11 - 22 )
+DELETE|( 11 - 22 )
+KEEP|home
+DELETE|home
+KEEP|( 11 - 18 )
+DELETE|( 11 - 18 )
+KEEP|( 6 - 8 )
+DELETE|( 6 - 8 )
+KEEP|( 12 - 12 )
+DELETE|( 12 - 12 )
+KEEP|( 17 - 19 )
+DELETE|( 17 - 19 )
+KEEP|( 18 - 18 )
+DELETE|( 18 - 18 )
+KEEP|( 13 - 26 )
+DELETE|( 13 - 26 )
+KEEP|entire
+DELETE|entire
+KEEP|( 12 - 10 )
+DELETE|( 12 - 10 )
+KEEP|( 13 - 10 )
+DELETE|( 13 - 10 )
+KEEP|( 30 - 20 )
+DELETE|( 30 - 20 )
+KEEP|( 40 )
+DELETE|( 40 )
+KEEP|( 17 - 7 )
+DELETE|( 17 - 7 )
+KEEP|( 35 - 23 )
+DELETE|( 35 - 23 )
+KEEP|( 44 - 30 )
+DELETE|( 44 - 30 )
+KEEP|host memphis
+DELETE|host memphis
+KEEP|( 0 - 2 )
+DELETE|( 0 - 2 )
+KEEP|only two
+DELETE|only two
+KEEP|( 37 - 29 )
+DELETE|( 37 - 29 )
+KEEP|( 37 - 30 )
+DELETE|( 37 - 30 )
+KEEP|( 11 - 15 )
+DELETE|( 11 - 15 )
+KEEP|( 30 - 21 )
+DELETE|( 30 - 21 )
+KEEP|( 8 - 3 )
+DELETE|( 8 - 3 )
+KEEP|, two assists
+DELETE|, two assists
+KEEP|steal
+DELETE|steal
+KEEP|( 5 - 4 )
+DELETE|( 5 - 4 )
+KEEP|middling
+DELETE|middling
+KEEP|( 18 - 36 )
+DELETE|( 18 - 36 )
+KEEP|( 2 - 5 )
+DELETE|( 2 - 5 )
+KEEP|( 7 - 8 )
+DELETE|( 7 - 8 )
+KEEP|jeff
+DELETE|jeff
+KEEP|the duo
+DELETE|the duo
+KEEP|( 26 - 22 )
+DELETE|( 26 - 22 )
+KEEP|al jefferson
+DELETE|al jefferson
+KEEP|( 19 - 30 )
+DELETE|( 19 - 30 )
+KEEP|( 23 - 36 )
+DELETE|( 23 - 36 )
+KEEP|( 42 - 31 )
+DELETE|( 42 - 31 )
+KEEP|( 10 - 5 )
+DELETE|( 10 - 5 )
+KEEP|( 30 - 28 )
+DELETE|( 30 - 28 )
+KEEP|( 30 - 41 )
+DELETE|( 30 - 41 )
+KEEP|( 13 - 13 )
+DELETE|( 13 - 13 )
+KEEP|( 20 - 8 )
+DELETE|( 20 - 8 )
+KEEP|( 26 - 13 )
+DELETE|( 26 - 13 )
+KEEP|( 34 - 24 )
+DELETE|( 34 - 24 )
+KEEP|cory joseph
+DELETE|cory joseph
+KEEP|( 41 - 24 )
+DELETE|( 41 - 24 )
+KEEP|( 21 - 4 )
+DELETE|( 21 - 4 )
+KEEP|( 31 - 22 )
+DELETE|( 31 - 22 )
+KEEP|( 1 - 3 )
+DELETE|( 1 - 3 )
+KEEP|kelly oubre
+DELETE|kelly oubre
+KEEP|( 29 - 20 )
+DELETE|( 29 - 20 )
+KEEP|de'aaron fox
+DELETE|de'aaron fox
+KEEP|( 21 - 45 )
+DELETE|( 21 - 45 )
+KEEP|( 18 - 42 )
+DELETE|( 18 - 42 )
+KEEP|( 12 - 25 )
+DELETE|( 12 - 25 )
+KEEP|( 29 - 23 )
+DELETE|( 29 - 23 )
+KEEP|( 17 - 14 )
+DELETE|( 17 - 14 )
+KEEP|( 40 - 29 )
+DELETE|( 40 - 29 )
+KEEP|( 13 - 7 )
+DELETE|( 13 - 7 )
+KEEP|( 23 - 21 )
+DELETE|( 23 - 21 )
+KEEP|( 17 - 15 )
+DELETE|( 17 - 15 )
+KEEP|( 31 - 25 )
+DELETE|( 31 - 25 )
+KEEP|( 12 - 27 )
+DELETE|( 12 - 27 )
+KEEP|( 16 - 13 )
+DELETE|( 16 - 13 )
+KEEP|( 4 - 6 )
+DELETE|( 4 - 6 )
+KEEP|all five
+DELETE|all five
+KEEP|american_airlines_arena
+DELETE|american_airlines_arena
+KEEP|( 14 - 26 )
+DELETE|( 14 - 26 )
+KEEP|( 23 - 35 )
+DELETE|( 23 - 35 )
+KEEP|( 34 - 41 )
+DELETE|( 34 - 41 )
+KEEP|( 10 - 9 )
+DELETE|( 10 - 9 )
+KEEP|( 15 - 20 )
+DELETE|( 15 - 20 )
+KEEP|( 16 - 21 )
+DELETE|( 16 - 21 )
+KEEP|cleveland
+DELETE|cleveland
+KEEP|12
+DELETE|12
+KEEP|payton
+DELETE|payton
+KEEP|the lakers
+DELETE|the lakers
+KEEP|( 9 - 2 )
+DELETE|( 9 - 2 )
+KEEP|( 8 - 5 )
+DELETE|( 8 - 5 )
+KEEP|( 15 - 19 )
+DELETE|( 15 - 19 )
+KEEP|( 33 - 41 )
+DELETE|( 33 - 41 )
+KEEP|30
+DELETE|30
+KEEP|squad
+DELETE|squad
+KEEP|tony
+DELETE|tony
+KEEP|( 16 - 20 )
+DELETE|( 16 - 20 )
+KEEP|( 31 - 35 )
+DELETE|( 31 - 35 )
+KEEP|western_conference
+DELETE|western_conference
+KEEP|the mavericks
+DELETE|the mavericks
+KEEP|( 6 - 10 )
+DELETE|( 6 - 10 )
+KEEP|wiggins
+DELETE|wiggins
+KEEP|( 21 - 25 )
+DELETE|( 21 - 25 )
+KEEP|( 47 - 34 )
+DELETE|( 47 - 34 )
+KEEP|( 34 - 26 )
+DELETE|( 34 - 26 )
+KEEP|whole
+DELETE|whole
+KEEP|host dallas
+DELETE|host dallas
+KEEP|( 39 - 29 )
+DELETE|( 39 - 29 )
+KEEP|( 36 - 27 )
+DELETE|( 36 - 27 )
+KEEP|( 22 - 28 )
+DELETE|( 22 - 28 )
+KEEP|( 18 - 29 )
+DELETE|( 18 - 29 )
+KEEP|( 15 - 7 )
+DELETE|( 15 - 7 )
+KEEP|( 29 - 26 )
+DELETE|( 29 - 26 )
+KEEP|( 32 - 25 )
+DELETE|( 32 - 25 )
+KEEP|( 40 - 30 )
+DELETE|( 40 - 30 )
+KEEP|( 14 - 11 )
+DELETE|( 14 - 11 )
+KEEP|production
+DELETE|production
+KEEP|off
+DELETE|off
+KEEP|eric gordon
+DELETE|eric gordon
+KEEP|jason
+DELETE|jason
+KEEP|leading scorer
+DELETE|leading scorer
+KEEP|nick young
+DELETE|nick young
+KEEP|other
+DELETE|other
+KEEP|festus ezeli
+DELETE|festus ezeli
+KEEP|carter-williams
+DELETE|carter-williams
+KEEP|( 10 - 21 )
+DELETE|( 10 - 21 )
+KEEP|who scored in double figures
+DELETE|who scored in double figures
+KEEP|millsap
+DELETE|millsap
+KEEP|anthony
+DELETE|anthony
+KEEP|henderson
+DELETE|henderson
+KEEP|cody zeller
+DELETE|cody zeller
+KEEP|his last three games
+DELETE|his last three games
+KEEP|earlier
+DELETE|earlier
+KEEP|magic
+DELETE|magic
+KEEP|ben gordon
+DELETE|ben gordon
+KEEP|tyson
+DELETE|tyson
+KEEP|jimmy
+DELETE|jimmy
+KEEP|the first
+DELETE|the first
+KEEP|kyle lowry
+DELETE|kyle lowry
+KEEP|and raptors
+DELETE|and raptors
+KEEP|depleted
+DELETE|depleted
+KEEP|anthony bennett
+DELETE|anthony bennett
+KEEP|his shot
+DELETE|his shot
+KEEP|those four
+DELETE|those four
+KEEP|terrence jones
+DELETE|terrence jones
+KEEP|backcourt
+DELETE|backcourt
+KEEP|eight
+DELETE|eight
+KEEP|marcin gortat
+DELETE|marcin gortat
+KEEP|even
+DELETE|even
+KEEP|mccollum
+DELETE|mccollum
+KEEP|high - octane
+DELETE|high - octane
+KEEP|marvin
+DELETE|marvin
+KEEP|talented
+DELETE|talented
+KEEP|atlanta
+DELETE|atlanta
+KEEP|24
+DELETE|24
+KEEP|ed
+DELETE|ed
+KEEP|them all
+DELETE|them all
+KEEP|only
+DELETE|only
+KEEP|the aforementioned
+DELETE|the aforementioned
+KEEP|barton
+DELETE|barton
+KEEP|no
+DELETE|no
+KEEP|best
+DELETE|best
+KEEP|draymond
+DELETE|draymond
+KEEP|the wiz
+DELETE|the wiz
+KEEP|last
+DELETE|last
+KEEP|shooting guard
+DELETE|shooting guard
+KEEP|clippers
+DELETE|clippers
+KEEP|hill
+DELETE|hill
+KEEP|blowout
+DELETE|blowout
+KEEP|amir
+DELETE|amir
+KEEP|the home
+DELETE|the home
+KEEP|powerful
+DELETE|powerful
+KEEP|reddick
+DELETE|reddick
+KEEP|frontcourt
+DELETE|frontcourt
+KEEP|forward
+DELETE|forward
+KEEP|their win
+DELETE|their win
+KEEP|38
+DELETE|38
+KEEP|these same
+DELETE|these same
+KEEP|a steal
+DELETE|a steal
+KEEP|aforementioned
+DELETE|aforementioned
+KEEP|the game
+DELETE|the game
+KEEP|this road
+DELETE|this road
+KEEP|reeling
+DELETE|reeling
+KEEP|hapless
+DELETE|hapless
+KEEP|leonard
+DELETE|leonard
+KEEP|team ’
+DELETE|team ’
+KEEP|danny
+DELETE|danny
+KEEP|east-leading
+DELETE|east-leading
+KEEP|the timberwolves
+DELETE|the timberwolves
+KEEP|( 39 - 40 )
+DELETE|( 39 - 40 )
+KEEP|playoffs
+DELETE|playoffs
+KEEP|( 27 - 49 )
+DELETE|( 27 - 49 )
+KEEP|( 43 - 37 )
+DELETE|( 43 - 37 )
+KEEP|( 43 - 28 )
+DELETE|( 43 - 28 )
+KEEP|( 27 - 35 )
+DELETE|( 27 - 35 )
+KEEP|( 26 - 55 )
+DELETE|( 26 - 55 )
+KEEP|( 28 - 51 )
+DELETE|( 28 - 51 )
+KEEP|brook
+DELETE|brook
+KEEP|( 38 - 40 )
+DELETE|( 38 - 40 )
+KEEP|( 47 - 30 )
+DELETE|( 47 - 30 )
+KEEP|( 40 - 41 )
+DELETE|( 40 - 41 )
+KEEP|( 51 - 31 )
+DELETE|( 51 - 31 )
+KEEP|derrick
+DELETE|derrick
+KEEP|( 43 - 19 )
+DELETE|( 43 - 19 )
+KEEP|( 38 - 27 )
+DELETE|( 38 - 27 )
+KEEP|( 24 - 36 )
+DELETE|( 24 - 36 )
+KEEP|( 50 - 31 )
+DELETE|( 50 - 31 )
+KEEP|( 34 - 23 )
+DELETE|( 34 - 23 )
+KEEP|( 30 - 39 )
+DELETE|( 30 - 39 )
+KEEP|, three assists
+DELETE|, three assists
+KEEP|( 15 - 23 )
+DELETE|( 15 - 23 )
+KEEP|( 3 - 6 )
+DELETE|( 3 - 6 )
+KEEP|( 24 - 57 )
+DELETE|( 24 - 57 )
+KEEP|( 13 - 8 )
+DELETE|( 13 - 8 )
+KEEP|( 7 - 14 )
+DELETE|( 7 - 14 )
+KEEP|( 29 - 22 )
+DELETE|( 29 - 22 )
+KEEP|( 55 - 14 )
+DELETE|( 55 - 14 )
+KEEP|( 10 - 20 )
+DELETE|( 10 - 20 )
+KEEP|( 28 - 14 )
+DELETE|( 28 - 14 )
+KEEP|( 35 - 15 )
+DELETE|( 35 - 15 )
+KEEP|( 19 - 29 )
+DELETE|( 19 - 29 )
+KEEP|( 39 - 36 )
+DELETE|( 39 - 36 )

@@ -51,6 +51,12 @@ sh final.sh
 Download the fine-tuned GPT2 model from [GDrive](https://drive.google.com/drive/folders/11q4pXX_MPB8P-XNdDfznq9KhnhcMZqol?usp=sharing).
 It's a zip folder, unzip the files into a `gpt2-finetuned` folder in root directory.
 
+### Download the LaserTagger model
+
+Download the trained LaserTagger model from [GDrive](https://drive.google.com/file/d/1uZI-ozhOj2KwzDjZDbgTro2JplDLGSXA/view?usp=sharing). Put the contens of this zip folder into `src/laserTagger/models` folder.
+
+### Run
+
 ```bash
 sh final.sh
 ```
@@ -60,6 +66,7 @@ sh final.sh
 3. Train important player classifier
 4. Create Case-Base
 5. Do generation
+6. Apply LaserTagger
 
 <!-- 
 ## TODO

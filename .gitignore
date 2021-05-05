@@ -14,6 +14,10 @@ __pycache__/
 *.h5
 *.zip
 
+# LaserTagger files/folders
+bert/
+models/
+
 # transformer models
 gpt2-finetuned/
 roberta-finetuned/
