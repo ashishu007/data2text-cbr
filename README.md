@@ -42,22 +42,12 @@ sh final.sh
 ## Cite
 
 ```latex
-@InProceedings{10.1007/978-3-030-86957-1_16,
-author="Upadhyay, Ashish
-and Massie, Stewart
-and Singh, Ritwik Kumar
-and Gupta, Garima
-and Ojha, Muneendra",
-editor="S{\'a}nchez-Ruiz, Antonio A.
-and Floyd, Michael W.",
-title="A Case-Based Approach to Data-to-Text Generation",
-booktitle="Case-Based Reasoning Research and Development",
-year="2021",
-publisher="Springer International Publishing",
-address="Cham",
-pages="232--247",
-abstract="Traditional Data-to-Text Generation (D2T) systems utilise carefully crafted domain specific rules and templates to generate high quality accurate texts. More recent approaches use neural systems to learn domain rules from the training data to produce very fluent and diverse texts. However, there is a trade-off with rule-based systems producing accurate text but that may lack variation, while learning-based systems produce more diverse texts but often with poorer accuracy. In this paper, we propose a Case-Based approach for D2T that mitigates the impact of this trade-off by dynamically selecting templates from the training corpora. In our approach we develop a novel case-alignment based, feature weighing method that is used to build an effective similarity measure. Extensive experimentation is performed on a sports domain dataset. Through Extractive Evaluation metrics, we demonstrate the benefit of the CBR system over a rule-based baseline and a neural benchmark.",
-isbn="978-3-030-86957-1"
+@inproceedings{upadhyay2021case,
+  title={A Case-Based Approach to Data-to-Text Generation},
+  author={Upadhyay, Ashish and Massie, Stewart and Singh, Ritwik Kumar and Gupta, Garima and Ojha, Muneendra},
+  booktitle={International Conference on Case-Based Reasoning},
+  pages={232--247},
+  year={2021},
+  organization={Springer}
 }
-
 ```
